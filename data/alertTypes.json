@@ -1,0 +1,162 @@
+[
+  {
+    "type": "speeding",
+    "keywords": ["over speed", "overspeed", "speed alert", "exceeding the speed limit", "speed violation"],
+    "severity": "HIGH", "emoji": "🚨", "label": "Over Speed", "source": "system1"
+  },
+  {
+    "type": "ignition_on",
+    "keywords": ["ignition on alert", "ignition was turned on", "ignition on"],
+    "severity": "LOW", "emoji": "🔑", "label": "Ignition ON", "source": "system1"
+  },
+  {
+    "type": "ignition_off",
+    "keywords": ["ignition off alert", "ignition was turned off", "ignition off"],
+    "severity": "LOW", "emoji": "🔒", "label": "Ignition OFF", "source": "system1"
+  },
+  {
+    "type": "idle",
+    "keywords": ["excessive idle", "idle alert", "exceeding the idle", "long idle", "idling"],
+    "severity": "LOW", "emoji": "💤", "label": "Excessive Idle", "source": "system1"
+  },
+  {
+    "type": "harsh_braking",
+    "keywords": ["harsh braking", "hard braking", "sudden brake", "harsh brake"],
+    "severity": "MEDIUM", "emoji": "⚠️", "label": "Harsh Braking", "source": "system1"
+  },
+  {
+    "type": "harsh_acceleration",
+    "keywords": ["harsh acceleration", "hard acceleration", "sudden acceleration"],
+    "severity": "MEDIUM", "emoji": "⚠️", "label": "Harsh Acceleration", "source": "system1"
+  },
+  {
+    "type": "geofence_exit",
+    "keywords": ["geofence exit", "left zone", "exited zone", "outside zone", "geofence violation"],
+    "severity": "HIGH", "emoji": "🔴", "label": "Geofence Exit", "source": "system1"
+  },
+  {
+    "type": "geofence_enter",
+    "keywords": ["geofence enter", "entered zone", "arrived zone", "inside zone"],
+    "severity": "LOW", "emoji": "🟢", "label": "Geofence Entry", "source": "system1"
+  },
+  {
+    "type": "sos",
+    "keywords": ["sos alert", "sos", "panic", "emergency", "distress"],
+    "severity": "CRITICAL", "emoji": "🆘", "label": "SOS Alert", "source": "both"
+  },
+  {
+    "type": "tampering",
+    "keywords": ["tamper", "tampering", "device removed", "cover move alert", "device cover is open", "device plug-out"],
+    "severity": "HIGH", "emoji": "🚫", "label": "Device Tampering", "source": "both"
+  },
+  {
+    "type": "accident",
+    "keywords": ["ubi collision", "collision alert", "vehicle collision", "crash"],
+    "severity": "CRITICAL", "emoji": "💥", "label": "Collision / Accident", "source": "both"
+  },
+  {
+    "type": "low_battery",
+    "keywords": ["low battery", "battery low", "battery alert", "battery low power shutdown", "undervoltage", "external power voltage is too low"],
+    "severity": "MEDIUM", "emoji": "🔋", "label": "Low Battery / Power", "source": "both"
+  },
+  {
+    "type": "fuel_drop",
+    "keywords": ["fuel drop", "fuel loss", "fuel theft", "fuel decrease"],
+    "severity": "HIGH", "emoji": "⛽", "label": "Fuel Drop", "source": "system1"
+  },
+  {
+    "type": "gps_lost",
+    "keywords": ["gps lost", "signal lost", "no gps", "gps disconnected", "gps jamming detected", "device enters the gps signal"],
+    "severity": "HIGH", "emoji": "📡", "label": "GPS Jamming / Lost", "source": "both"
+  },
+  {
+    "type": "gps_restored",
+    "keywords": ["gps jamming ended", "device leaves the gps signal"],
+    "severity": "LOW", "emoji": "📡", "label": "GPS Restored", "source": "both"
+  },
+  {
+    "type": "lte_jamming",
+    "keywords": ["lte jamming detected", "lte signal interference"],
+    "severity": "HIGH", "emoji": "📶", "label": "LTE Jamming Detected", "source": "track9999"
+  },
+  {
+    "type": "lte_restored",
+    "keywords": ["lte jamming ended", "device leaves the lte signal"],
+    "severity": "LOW", "emoji": "📶", "label": "LTE Jamming Ended", "source": "track9999"
+  },
+  {
+    "type": "distraction",
+    "keywords": ["distraction alert", "playing on the phone", "driver playing with mobile"],
+    "severity": "HIGH", "emoji": "📱", "label": "Distraction / Phone Use", "source": "track9999"
+  },
+  {
+    "type": "vibration",
+    "keywords": ["vibration alert", "the device vibrates"],
+    "severity": "MEDIUM", "emoji": "📳", "label": "Vibration Alert", "source": "track9999"
+  },
+  {
+    "type": "ubi_acceleration",
+    "keywords": ["ubi rapid acceleration", "harsh acceleration"],
+    "severity": "MEDIUM", "emoji": "⬆️", "label": "UBI Rapid Acceleration", "source": "track9999"
+  },
+  {
+    "type": "ubi_deceleration",
+    "keywords": ["ubi rapid deceleration", "ubi collision"],
+    "severity": "MEDIUM", "emoji": "⬇️", "label": "UBI Rapid Deceleration", "source": "track9999"
+  },
+  {
+    "type": "offline",
+    "keywords": ["offline alert", "device offline"],
+    "severity": "MEDIUM", "emoji": "🔌", "label": "Device Offline", "source": "track9999"
+  },
+  {
+    "type": "camera_blocked",
+    "keywords": ["camera screen blocked"],
+    "severity": "HIGH", "emoji": "🎥", "label": "Camera Blocked", "source": "track9999"
+  },
+  {
+    "type": "seatbelt",
+    "keywords": ["not wearing seat belt", "seatbelt"],
+    "severity": "HIGH", "emoji": "🪢", "label": "No Seat Belt", "source": "track9999"
+  },
+  {
+    "type": "smoking",
+    "keywords": ["smoking alert", "driver smokes"],
+    "severity": "MEDIUM", "emoji": "🚬", "label": "Smoking Detected", "source": "track9999"
+  },
+  {
+    "type": "fatigue",
+    "keywords": ["fatigue driving", "fatigue alert"],
+    "severity": "HIGH", "emoji": "😴", "label": "Fatigue Driving", "source": "track9999"
+  },
+  {
+    "type": "engine_failure",
+    "keywords": ["engine failure", "vehicle engine failure", "overheating", "water temperature is too high"],
+    "severity": "CRITICAL", "emoji": "🔧", "label": "Engine Failure / Overheat", "source": "track9999"
+  },
+  {
+    "type": "drinking",
+    "keywords": ["drinking", "driver drinks"],
+    "severity": "HIGH", "emoji": "🥤", "label": "Drinking While Driving", "source": "track9999"
+  },
+  {
+    "type": "lane_change",
+    "keywords": ["abrupt lane switching", "sharp lane change", "lane switching alarm"],
+    "severity": "MEDIUM", "emoji": "↔️", "label": "Abrupt Lane Change", "source": "track9999"
+  },
+  {
+    "type": "driver_change",
+    "keywords": ["driver change detected", "driver changes"],
+    "severity": "MEDIUM", "emoji": "👤", "label": "Driver Change Detected", "source": "track9999"
+  },
+  {
+    "type": "voice_alarm",
+    "keywords": ["voice alarm", "sound around the device is too loud"],
+    "severity": "MEDIUM", "emoji": "🔊", "label": "Voice / Noise Alarm", "source": "track9999"
+  },
+  {
+    "type": "unknown",
+    "keywords": [],
+    "severity": "MEDIUM", "emoji": "📋", "label": "Alert", "source": "both"
+  }
+]

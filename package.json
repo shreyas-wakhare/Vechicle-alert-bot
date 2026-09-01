@@ -1,0 +1,23 @@
+{
+  "name": "vehicle-alert-bot",
+  "version": "2.1.0",
+  "description": "Forwards vehicle tracking alert emails to a WhatsApp group with history tracking",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "imapflow": "^1.0.164",
+    "mailparser": "^3.7.1",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.23.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
