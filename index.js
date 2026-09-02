@@ -71,6 +71,22 @@ async function main() {
       if (intel?.signals?.length > 0) {
         logger.info(`   ↳ 💡 [ContextIntelligence] Signals: ${intel.signals.map(s => `${s.code}[${s.level}]`).join(', ')}`);
       }
+      if (context.alertCorrelation) {
+        const corr = context.alertCorrelation;
+        logger.info(
+          `   ↳ 🔗 [AlertCorrelation] ID: ${corr.correlationId} | Status: ${corr.status}` +
+          ` | Count: ${corr.eventCount} | Duration: ${Math.round(corr.durationMs / 1000)}s | Types: [${corr.eventTypes.join(', ')}]`
+        );
+        if (corr.incident && corr.incident.type !== 'NONE') {
+          const inc = corr.incident;
+          const intel = inc.intelligence;
+          logger.info(
+            `   ↳ 🚗 [IncidentGrouping] Type: ${inc.type} (${inc.label}) | IsIncident: ${inc.isIncident}` +
+            ` | Rule: ${inc.ruleId} | Matched: [${inc.matchedEvents.join(', ')}]` +
+            (intel ? ` | Status: ${intel.status} | Cat: ${intel.interpretation?.operationalCategory} | Attn: ${intel.interpretation?.recommendedAttention} | Cont: ${intel.continuation?.isContinuation} | Esc: ${intel.escalation?.detected} | Seq: [${intel.sequence.join(' → ')}]` : '')
+          );
+        }
+      }
     }
 
     // ── IGNITION ON ────────────────────────────────────────────────────────

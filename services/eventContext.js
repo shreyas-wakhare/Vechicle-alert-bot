@@ -14,12 +14,14 @@
 const logger                     = require('../utils/logger');
 const RecentActivityEngine       = require('./recentActivityEngine');
 const ContextIntelligenceEngine  = require('./contextIntelligenceEngine');
+const AlertCorrelationEngine     = require('./alertCorrelationEngine');
 
 class EventContextBuilder {
   constructor(historyStore = null) {
     this.historyStore = historyStore;
     this.recentEngine = new RecentActivityEngine(historyStore);
     this.intelligenceEngine = new ContextIntelligenceEngine();
+    this.correlationEngine = new AlertCorrelationEngine();
   }
 
   /**
@@ -134,6 +136,28 @@ class EventContextBuilder {
           hasCluster: false,
           hasContextualRisk: false,
         },
+      };
+    }
+
+    try {
+      context.alertCorrelation = this.correlationEngine.correlate(context);
+    } catch (err) {
+      logger.error(`AlertCorrelationEngine error: ${err?.message || err}`);
+      context.alertCorrelation = {
+        correlationId: `CORR-EMPTY-${Date.now()}`,
+        vehicleKey: 'UNKNOWN',
+        vehicle: null,
+        status: 'NONE',
+        isCorrelated: false,
+        eventCount: 0,
+        eventIds: [],
+        eventTypes: [],
+        events: [],
+        startTime: null,
+        latestTime: null,
+        durationMs: 0,
+        windowMinutes: 15,
+        generatedAt: new Date().toISOString(),
       };
     }
 

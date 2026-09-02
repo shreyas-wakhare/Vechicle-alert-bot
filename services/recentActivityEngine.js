@@ -153,6 +153,7 @@ class RecentActivityEngine {
       timestamp: context.timestamp,
       source: context.source,
       speed: context.telemetry?.speed || null,
+      speedLimit: context.telemetry?.speedLimit || null,
       address: context.location?.address || null
     };
 
@@ -181,6 +182,7 @@ class RecentActivityEngine {
       timestamp: context.timestamp,
       source: context.source,
       speed: context.telemetry?.speed || null,
+      speedLimit: context.telemetry?.speedLimit || null,
       address: context.location?.address || null
     };
 
