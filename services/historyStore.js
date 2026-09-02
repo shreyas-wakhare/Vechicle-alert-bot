@@ -29,8 +29,13 @@ const MAX_TRIP_MS   = 8  * 3_600_000;     // 8 hours
 const STALE_ON_MS   = 12 * 3_600_000;     // 12 hours
 
 class HistoryStore {
-  constructor() {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
+  constructor(options = {}) {
+    this._persist = options?.persist !== false;
+    this._dataDir = options?.dataDir || DATA_DIR;
+    this._historyFile = options?.historyFile || HISTORY_FILE;
+    this._tripsFile = options?.tripsFile || TRIPS_FILE;
+    this._stateFile = options?.stateFile || STATE_FILE;
+    fs.mkdirSync(this._dataDir, { recursive: true });
     this._records = [];
     this._trips   = [];
     this._state   = {
@@ -370,9 +375,9 @@ class HistoryStore {
   // ─── Persistence ──────────────────────────────────────────────────────────
 
   _load() {
-    this._records = this._readJSON(HISTORY_FILE, []);
-    this._trips   = this._readJSON(TRIPS_FILE,   []);
-    const saved   = this._readJSON(STATE_FILE,   {});
+    this._records = this._readJSON(this._historyFile, []);
+    this._trips   = this._readJSON(this._tripsFile,   []);
+    const saved   = this._readJSON(this._stateFile,   {});
     this._state   = {
       lastIgnitionOn:    saved.lastIgnitionOn    || {},
       lastIgnitionOff:   saved.lastIgnitionOff   || {},
@@ -394,9 +399,10 @@ class HistoryStore {
   }
 
   _flush() {
-    if (this._historyDirty) { this._atomicWrite(HISTORY_FILE, this._records); this._historyDirty = false; }
-    if (this._tripsDirty)   { this._atomicWrite(TRIPS_FILE,   this._trips);   this._tripsDirty   = false; }
-    if (this._stateDirty)   { this._atomicWrite(STATE_FILE,   this._state);   this._stateDirty   = false; }
+    if (this._persist === false) return;
+    if (this._historyDirty) { this._atomicWrite(this._historyFile, this._records); this._historyDirty = false; }
+    if (this._tripsDirty)   { this._atomicWrite(this._tripsFile,   this._trips);   this._tripsDirty   = false; }
+    if (this._stateDirty)   { this._atomicWrite(this._stateFile,   this._state);   this._stateDirty   = false; }
   }
 
   _atomicWrite(filePath, data) {

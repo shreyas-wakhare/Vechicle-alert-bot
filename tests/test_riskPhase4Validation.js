@@ -75,13 +75,14 @@ runTest('2 — Layer safety: malformed inner object does not crash EventContextB
 // ── 3. Score Upper & Lower Bounds (Audit C) ──────────────────────────────────
 runTest('3 — Score bounds: score never exceeds 100 and never drops below 0', () => {
   const engine = new RiskEngine({ persist: false });
+  const now = new Date().toISOString();
 
   // Exceed 100 points
   for (let i = 0; i < 10; i++) {
     engine.evaluate({
       eventId: `E-BND-MAX-${i}`,
       alertType: 'accident',
-      timestamp: '2026-09-02T10:00:00.000Z',
+      timestamp: now,
       vehicle: { plate: 'BOUND-VEH' },
     });
   }
@@ -93,7 +94,7 @@ runTest('3 — Score bounds: score never exceeds 100 and never drops below 0', (
     engine.evaluate({
       eventId: `E-BND-MIN-${i}`,
       alertType: 'gps_restored',
-      timestamp: '2026-09-02T10:01:00.000Z',
+      timestamp: now,
       vehicle: { plate: 'BOUND-VEH-2' },
     });
   }
@@ -158,8 +159,9 @@ runTest('7 — Malformed timestamp safety: invalid date strings fall back cleanl
 // ── 8. Vehicle Isolation (Audit E) ───────────────────────────────────────────
 runTest('8 — Entity isolation: Vehicle A risk never bleeds into Vehicle B', () => {
   const engine = new RiskEngine({ persist: false });
-  engine.evaluate({ eventId: 'E-ISO-A', alertType: 'accident', timestamp: '2026-09-02T10:00:00.000Z', vehicle: { plate: 'VEH-A' } });
-  const resB = engine.evaluate({ eventId: 'E-ISO-B', alertType: 'ignition_on', timestamp: '2026-09-02T10:00:00.000Z', vehicle: { plate: 'VEH-B' } });
+  const now = new Date().toISOString();
+  engine.evaluate({ eventId: 'E-ISO-A', alertType: 'accident', timestamp: now, vehicle: { plate: 'VEH-A' } });
+  const resB = engine.evaluate({ eventId: 'E-ISO-B', alertType: 'ignition_on', timestamp: now, vehicle: { plate: 'VEH-B' } });
 
   assert.strictEqual(resB.vehicleRisk.score, 1, 'Vehicle B must only have ignition impact');
   assert.strictEqual(engine.getVehicleRisk('PLATE:VEHA').score, 45, 'Vehicle A must retain accident score');
@@ -168,8 +170,9 @@ runTest('8 — Entity isolation: Vehicle A risk never bleeds into Vehicle B', ()
 // ── 9. Driver Isolation (Audit E) ───────────────────────────────────────────
 runTest('9 — Driver isolation: Driver A risk never bleeds into Driver B', () => {
   const engine = new RiskEngine({ persist: false });
-  engine.evaluate({ eventId: 'E-DRV-A', alertType: 'speeding', timestamp: '2026-09-02T10:00:00.000Z', vehicle: { plate: 'VEH-1', driver: 'Driver Alpha' } });
-  const resB = engine.evaluate({ eventId: 'E-DRV-B', alertType: 'idle', timestamp: '2026-09-02T10:00:00.000Z', vehicle: { plate: 'VEH-2', driver: 'Driver Beta' } });
+  const now = new Date().toISOString();
+  engine.evaluate({ eventId: 'E-DRV-A', alertType: 'speeding', timestamp: now, vehicle: { plate: 'VEH-1', driver: 'Driver Alpha' } });
+  const resB = engine.evaluate({ eventId: 'E-DRV-B', alertType: 'idle', timestamp: now, vehicle: { plate: 'VEH-2', driver: 'Driver Beta' } });
 
   assert.strictEqual(resB.driverRisk.score, 0, 'Idle is driverDomain: false, Driver Beta score must be 0');
   assert.strictEqual(engine.getDriverRisk('DRIVER:DRIVER_ALPHA').score, 18, 'Driver Alpha must retain speeding score');
@@ -275,45 +278,44 @@ runTest('17 — Duplicate event replay does not falsely mutate trend', () => {
 
 // ── 18. Safe Load with Missing State File (Audit G) ──────────────────────────
 runTest('18 — Persistence safety: engine starts safely when state file is absent', () => {
-  const nonExistentPath = path.join(__dirname, '../data/non_existent_state.json');
-  if (fs.existsSync(nonExistentPath)) fs.unlinkSync(nonExistentPath);
+  const scratchStatePath = path.join(__dirname, '../scratch/test_missing_state.json');
+  if (fs.existsSync(scratchStatePath)) fs.unlinkSync(scratchStatePath);
 
   assert.doesNotThrow(() => {
-    new RiskEngine({ persist: true });
+    new RiskEngine({ persist: true, filePath: scratchStatePath });
   });
 });
 
 // ── 19. Safe Load with Corrupted State File (Audit G) ────────────────────────
 runTest('19 — Persistence safety: engine recovers cleanly from corrupted state file', () => {
-  const statePath = path.join(__dirname, '../data/risk_state.json');
-  const backup = fs.existsSync(statePath) ? fs.readFileSync(statePath, 'utf8') : null;
+  const scratchStatePath = path.join(__dirname, '../scratch/test_corrupt_state.json');
+  fs.mkdirSync(path.dirname(scratchStatePath), { recursive: true });
+  fs.writeFileSync(scratchStatePath, '{ this is corrupted json }}}', 'utf8');
 
   try {
-    fs.writeFileSync(statePath, '{ this is corrupted json }}}', 'utf8');
     assert.doesNotThrow(() => {
-      new RiskEngine({ persist: true });
+      new RiskEngine({ persist: true, filePath: scratchStatePath });
     });
   } finally {
-    if (backup !== null) {
-      fs.writeFileSync(statePath, backup, 'utf8');
-    } else {
-      try { fs.unlinkSync(statePath); } catch {}
-    }
+    try { if (fs.existsSync(scratchStatePath)) fs.unlinkSync(scratchStatePath); } catch {}
   }
 });
 
 // ── 20. Persistence Roundtrip Rehydration (Audit G) ──────────────────────────
 runTest('20 — Persistence roundtrip: vehicle risk state rehydrates cleanly after restart', () => {
-  const statePath = path.join(__dirname, '../data/risk_state.json');
-  try { if (fs.existsSync(statePath)) fs.unlinkSync(statePath); } catch {}
+  const scratchStatePath = path.join(__dirname, '../scratch/test_roundtrip_state.json');
+  try { if (fs.existsSync(scratchStatePath)) fs.unlinkSync(scratchStatePath); } catch {}
 
-  const e1 = new RiskEngine({ persist: true });
-  e1.evaluate({ eventId: 'E-RND-1', alertType: 'speeding', timestamp: '2026-09-02T10:00:00.000Z', vehicle: { plate: 'RND-VEH' } });
+  const e1 = new RiskEngine({ persist: true, filePath: scratchStatePath });
+  const now = new Date().toISOString();
+  e1.evaluate({ eventId: 'E-RND-1', alertType: 'speeding', timestamp: now, vehicle: { plate: 'RND-VEH' } });
 
-  const e2 = new RiskEngine({ persist: true });
+  const e2 = new RiskEngine({ persist: true, filePath: scratchStatePath });
   const reloaded = e2.getVehicleRisk('PLATE:RNDVEH');
   assert.ok(reloaded);
   assert.strictEqual(reloaded.score, 18);
+
+  try { if (fs.existsSync(scratchStatePath)) fs.unlinkSync(scratchStatePath); } catch {}
 });
 
 // ── 21. Bounded Snapshots Cap (Audit H) ───────────────────────────────────────

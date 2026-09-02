@@ -13,6 +13,7 @@ const logger       = require('../utils/logger');
 const alertTypes   = require('../data/alertTypes.json');
 const VehicleScorer = require('./vehicleScorer');
 const MessageFormatter = require('./messageFormatter');
+const AIFleetAdvisor = require('./aiFleetAdvisor');
 
 const VALID_PERIODS   = ['1h','2h','3h','6h','12h','24h'];
 const SCORE_PERIODS   = [1, 3, 7, 14];
@@ -32,9 +33,14 @@ class WhatsAppBot {
     this._ready      = false;
     this._history    = null;
     this._sendQueue  = Promise.resolve();
+    this.advisor     = new AIFleetAdvisor();
+    this.formatter   = new MessageFormatter();
   }
 
-  setHistoryStore(store) { this._history = store; }
+  setHistoryStore(store) {
+    this._history = store;
+    this.advisor = new AIFleetAdvisor({ historyStore: store });
+  }
   isReady()              { return this._ready; }
 
   async initialize() {
@@ -174,6 +180,7 @@ class WhatsAppBot {
     if (cmd === '!trip')        return this._cmdTrip(msg, arg1);
     if (cmd === '!score')       return this._cmdScore(msg, rest);
     if (cmd === '!leaderboard') return this._cmdLeaderboard(msg, arg1);
+    if (cmd === '!advisor')     return this._cmdAdvisor(msg, arg1);
     if (cmd === '!help')        return this._cmdHelp(msg);
   }
 
@@ -228,11 +235,46 @@ class WhatsAppBot {
       `*!vehicle <plate>*       — History + trip & idle totals\n` +
       `*!score <plate>*         — Driver behaviour score (all time)\n` +
       `*!leaderboard [1|3|7|14]*— Fleet score ranking (default: 7 days)\n` +
+      `*!advisor [period]*      — AI Fleet Operations Decision Briefing (default: 24h)\n` +
       `*!idle <period>*         — Fleet idle summary (${VALID_PERIODS.join(', ')})\n` +
       `*!trip <period>*         — Fleet trip summary\n` +
       `*!help*                  — This message\n\n` +
       `_Admin DM only: !turnoff personal | !turnon personal | !turnoff help | !tripreset_`
     );
+  }
+
+  async _cmdAdvisor(msg, periodStr) {
+    let hours = 24;
+    if (periodStr) {
+      const p = periodStr.trim().toLowerCase();
+      if (/^\d+$|^\d+h$/.test(p)) {
+        const val = parseInt(p.replace('h', ''), 10);
+        if (!isNaN(val) && val >= 1 && val <= 168) {
+          hours = val;
+        } else {
+          await msg.reply('Usage: *!advisor [period]*\nValid periods: 1h, 2h, 3h, 6h, 12h, 24h, 48h, 72h, 168h (default: 24h)');
+          return;
+        }
+      } else {
+        await msg.reply('Usage: *!advisor [period]*\nValid periods: 1h, 2h, 3h, 6h, 12h, 24h, 48h, 72h, 168h (default: 24h)');
+        return;
+      }
+    }
+
+    try {
+      const records = this._history ? this._history.getRecentRecords(hours) : [];
+      const adviceResult = await this.advisor.generateAdvice(records, hours);
+      const text = this.formatter.formatFleetAdvisorBriefing(adviceResult);
+      if (text) {
+        await msg.reply(text);
+        logger.success(`!advisor command executed cleanly for ${hours}h window`);
+      } else {
+        await msg.reply('⚠️ Unable to generate advisor briefing at this time.');
+      }
+    } catch (err) {
+      logger.error(`!advisor command error: ${err?.message || err}`);
+      await msg.reply('⚠️ Error generating fleet advisor briefing.');
+    }
   }
 
   async _cmdVehicle(msg, plate) {

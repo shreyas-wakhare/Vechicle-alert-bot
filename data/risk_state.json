@@ -1,100 +1,23 @@
 {
-  "updatedAt": "2026-09-02T08:59:04.960Z",
+  "updatedAt": "2026-09-02T14:00:14.524Z",
   "vehicles": {
-    "PLATE:RNDVEH": {
-      "score": 18,
-      "lastUpdated": "2026-09-02T10:00:00.000Z",
-      "contributors": [
-        {
-          "eventId": "E-RND-1",
-          "alertType": "speeding",
-          "alertLabel": "speeding",
-          "netImpact": 18,
-          "timestamp": "2026-09-02T10:00:00.000Z"
-        }
-      ],
-      "processedEventIds": [
-        "E-RND-1"
-      ],
-      "snapshots": [
-        {
-          "eventId": "E-RND-1",
-          "alertType": "speeding",
-          "alertLabel": "speeding",
-          "netImpact": 18,
-          "score": 18,
-          "previousScore": 0,
-          "level": "LOW",
-          "timestamp": "2026-09-02T10:00:00.000Z"
-        }
-      ]
-    },
-    "PLATE:JSONSAFEVEH": {
-      "score": 18,
-      "lastUpdated": "2026-09-02T10:00:00.000Z",
-      "contributors": [
-        {
-          "eventId": "UID-P4-38",
-          "alertType": "speeding",
-          "alertLabel": "Over Speed",
-          "netImpact": 18,
-          "timestamp": "2026-09-02T10:00:00.000Z"
-        }
-      ],
-      "processedEventIds": [
-        "UID-P4-38"
-      ],
-      "snapshots": [
-        {
-          "eventId": "UID-P4-38",
-          "alertType": "speeding",
-          "alertLabel": "Over Speed",
-          "netImpact": 18,
-          "score": 18,
-          "previousScore": 0,
-          "level": "LOW",
-          "timestamp": "2026-09-02T10:00:00.000Z"
-        }
-      ]
-    },
-    "PLATE:NOCYCLEVEH": {
-      "score": 18,
-      "lastUpdated": "2026-09-02T10:00:00.000Z",
-      "contributors": [
-        {
-          "eventId": "UID-P4-39",
-          "alertType": "distraction",
-          "alertLabel": "Driver Distracted",
-          "netImpact": 18,
-          "timestamp": "2026-09-02T10:00:00.000Z"
-        }
-      ],
-      "processedEventIds": [
-        "UID-P4-39"
-      ],
-      "snapshots": [
-        {
-          "eventId": "UID-P4-39",
-          "alertType": "distraction",
-          "alertLabel": "Driver Distracted",
-          "netImpact": 18,
-          "score": 18,
-          "previousScore": 0,
-          "level": "LOW",
-          "timestamp": "2026-09-02T10:00:00.000Z"
-        }
-      ]
-    },
     "PLATE:D31498": {
-      "score": 36,
+      "score": 18,
       "lastUpdated": "2026-09-02T06:00:00.000Z",
       "contributors": [
         {
-          "eventId": "EVT-1788328800000",
+          "eventId": "UID-P2-4",
           "alertType": "speeding",
           "alertLabel": "Over Speed",
           "netImpact": 18,
-          "timestamp": "2026-09-02 10:00:00"
+          "timestamp": "2026-09-02T10:00:00.000Z"
+        },
+        {
+          "eventId": "UID-F4-27",
+          "alertType": "speeding",
+          "alertLabel": "Over Speed",
+          "netImpact": 18,
+          "timestamp": "2026-09-02T10:00:00.000Z"
         },
         {
           "eventId": "UID-P4-40",
@@ -102,22 +25,108 @@
           "alertLabel": "Over Speed",
           "netImpact": 18,
           "timestamp": "2026-09-02T10:00:00.000Z"
+        },
+        {
+          "eventId": "UID-1015",
+          "alertType": "gps_restored",
+          "alertLabel": "GPS Restored",
+          "netImpact": -5,
+          "timestamp": "2026-09-01 10:00:00"
+        },
+        {
+          "eventId": "UID-1014",
+          "alertType": "gps_lost",
+          "alertLabel": "GPS Jamming / Lost",
+          "netImpact": 25,
+          "timestamp": "2026-09-01 10:00:00"
+        },
+        {
+          "eventId": "UID-1013",
+          "alertType": "fuel_drop",
+          "alertLabel": "Fuel Drop",
+          "netImpact": 30,
+          "timestamp": "2026-09-01 10:00:00"
+        },
+        {
+          "eventId": "UID-1012",
+          "alertType": "low_battery",
+          "alertLabel": "Low Battery / Power",
+          "netImpact": 17,
+          "timestamp": "2026-09-01 10:00:00"
+        },
+        {
+          "eventId": "UID-1011",
+          "alertType": "accident",
+          "alertLabel": "Collision / Accident",
+          "netImpact": 76,
+          "timestamp": "2026-09-01 10:00:00"
+        },
+        {
+          "eventId": "UID-1010",
+          "alertType": "tampering",
+          "alertLabel": "Device Tampering",
+          "netImpact": 27,
+          "timestamp": "2026-09-01 10:00:00"
+        },
+        {
+          "eventId": "UID-1009",
+          "alertType": "sos",
+          "alertLabel": "SOS Alert",
+          "netImpact": 76,
+          "timestamp": "2026-09-01 10:00:00"
         }
       ],
       "processedEventIds": [
+        "EVT-1788328800000",
+        "UID-101",
+        "UID-102",
+        "UID-103",
+        "UID-201",
+        "UID-202",
+        "UID-203",
+        "UID-204",
+        "UID-205",
+        "UID-206",
+        "UID-401",
+        "UID-701",
+        "UID-801",
+        "UID-903",
+        "UID-1001",
+        "UID-1005",
+        "UID-1006",
+        "UID-1007",
+        "UID-1008",
+        "UID-1009",
+        "UID-1010",
+        "UID-1011",
+        "UID-1012",
+        "UID-1013",
+        "UID-1014",
+        "UID-1015",
         "UID-P4-40",
-        "EVT-1788328800000"
+        "UID-F4-27",
+        "UID-P2-4"
       ],
       "snapshots": [
         {
-          "eventId": "EVT-1788328800000",
+          "eventId": "UID-P2-4",
           "alertType": "speeding",
           "alertLabel": "Over Speed",
           "netImpact": 18,
-          "score": 36,
-          "previousScore": 18,
-          "level": "MEDIUM",
-          "timestamp": "2026-09-02 10:00:00"
+          "score": 18,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-02T10:00:00.000Z"
+        },
+        {
+          "eventId": "UID-F4-27",
+          "alertType": "speeding",
+          "alertLabel": "Over Speed",
+          "netImpact": 18,
+          "score": 18,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-02T10:00:00.000Z"
         },
         {
           "eventId": "UID-P4-40",
@@ -128,6 +137,176 @@
           "previousScore": 0,
           "level": "LOW",
           "timestamp": "2026-09-02T10:00:00.000Z"
+        },
+        {
+          "eventId": "UID-1015",
+          "alertType": "gps_restored",
+          "alertLabel": "GPS Restored",
+          "netImpact": -5,
+          "score": 95,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-01 10:00:00"
+        },
+        {
+          "eventId": "UID-1014",
+          "alertType": "gps_lost",
+          "alertLabel": "GPS Jamming / Lost",
+          "netImpact": 25,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-01 10:00:00"
+        },
+        {
+          "eventId": "UID-1013",
+          "alertType": "fuel_drop",
+          "alertLabel": "Fuel Drop",
+          "netImpact": 30,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-01 10:00:00"
+        },
+        {
+          "eventId": "UID-1012",
+          "alertType": "low_battery",
+          "alertLabel": "Low Battery / Power",
+          "netImpact": 17,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-01 10:00:00"
+        },
+        {
+          "eventId": "UID-1011",
+          "alertType": "accident",
+          "alertLabel": "Collision / Accident",
+          "netImpact": 76,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-01 10:00:00"
+        },
+        {
+          "eventId": "UID-1010",
+          "alertType": "tampering",
+          "alertLabel": "Device Tampering",
+          "netImpact": 27,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-01 10:00:00"
+        },
+        {
+          "eventId": "UID-1009",
+          "alertType": "sos",
+          "alertLabel": "SOS Alert",
+          "netImpact": 76,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-01 10:00:00"
+        },
+        {
+          "eventId": "UID-1008",
+          "alertType": "geofence_enter",
+          "alertLabel": "Geofence Entry",
+          "netImpact": 3,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-01 10:00:00"
+        },
+        {
+          "eventId": "UID-1007",
+          "alertType": "geofence_exit",
+          "alertLabel": "Geofence Exit",
+          "netImpact": 20,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-01 10:00:00"
+        },
+        {
+          "eventId": "UID-1006",
+          "alertType": "harsh_acceleration",
+          "alertLabel": "Harsh Acceleration",
+          "netImpact": 14,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-01 10:00:00"
+        },
+        {
+          "eventId": "UID-1005",
+          "alertType": "harsh_braking",
+          "alertLabel": "Harsh Braking",
+          "netImpact": 14,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-01 10:00:00"
+        },
+        {
+          "eventId": "UID-1001",
+          "alertType": "speeding",
+          "alertLabel": "Over Speed",
+          "netImpact": 18,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-01 10:00:00"
+        },
+        {
+          "eventId": "UID-903",
+          "alertType": "speeding",
+          "alertLabel": "Over Speed",
+          "netImpact": 18,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-02T10:00:00.000Z"
+        },
+        {
+          "eventId": "UID-801",
+          "alertType": "speeding",
+          "alertLabel": "Over Speed",
+          "netImpact": 18,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-02T10:00:00.000Z"
+        },
+        {
+          "eventId": "UID-701",
+          "alertType": "speeding",
+          "alertLabel": "Over Speed",
+          "netImpact": 18,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-02T10:00:00.000Z"
+        },
+        {
+          "eventId": "UID-401",
+          "alertType": "speeding",
+          "alertLabel": "Over Speed",
+          "netImpact": 18,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-02T10:00:00.000Z"
+        },
+        {
+          "eventId": "UID-206",
+          "alertType": "harsh_braking",
+          "alertLabel": "Harsh Braking",
+          "netImpact": 14,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-02T10:02:00.000Z"
         }
       ]
     },
@@ -159,12 +338,411 @@
         }
       ]
     },
-    "PLATE:AIREADYVEH": {
+    "IMEI:865478070212966": {
+      "score": 100,
+      "lastUpdated": "2026-09-02T13:18:30.000Z",
+      "contributors": [
+        {
+          "eventId": "UID-120366",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "timestamp": "2026-09-02 17:18:30"
+        },
+        {
+          "eventId": "UID-120353",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "timestamp": "2026-09-02 17:07:48"
+        },
+        {
+          "eventId": "UID-120351",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "timestamp": "2026-09-02 17:05:15"
+        },
+        {
+          "eventId": "UID-120346",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "timestamp": "2026-09-02 16:55:23"
+        },
+        {
+          "eventId": "UID-120344",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "timestamp": "2026-09-02 16:53:40"
+        },
+        {
+          "eventId": "UID-120341",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "timestamp": "2026-09-02 16:51:28"
+        }
+      ],
+      "processedEventIds": [
+        "UID-120341",
+        "UID-120344",
+        "UID-120346",
+        "UID-120351",
+        "UID-120353",
+        "UID-120366"
+      ],
+      "snapshots": [
+        {
+          "eventId": "UID-120366",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 100,
+          "previousScore": 99,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-02 17:18:30"
+        },
+        {
+          "eventId": "UID-120353",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 100,
+          "previousScore": 88,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-02 17:07:48"
+        },
+        {
+          "eventId": "UID-120351",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 89,
+          "previousScore": 65,
+          "level": "HIGH",
+          "timestamp": "2026-09-02 17:05:15"
+        },
+        {
+          "eventId": "UID-120346",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 66,
+          "previousScore": 42,
+          "level": "ELEVATED",
+          "timestamp": "2026-09-02 16:55:23"
+        },
+        {
+          "eventId": "UID-120344",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 42,
+          "previousScore": 18,
+          "level": "MEDIUM",
+          "timestamp": "2026-09-02 16:53:40"
+        },
+        {
+          "eventId": "UID-120341",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "score": 18,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-02 16:51:28"
+        }
+      ]
+    },
+    "IMEI:865478070258308": {
+      "score": 18,
+      "lastUpdated": "2026-09-02T13:07:27.000Z",
+      "contributors": [
+        {
+          "eventId": "UID-120352",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "timestamp": "2026-09-02 17:07:27"
+        }
+      ],
+      "processedEventIds": [
+        "UID-120352"
+      ],
+      "snapshots": [
+        {
+          "eventId": "UID-120352",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "score": 18,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-02 17:07:27"
+        }
+      ]
+    },
+    "IMEI:865478070258977": {
+      "score": 18,
+      "lastUpdated": "2026-09-02T13:11:15.000Z",
+      "contributors": [
+        {
+          "eventId": "UID-120357",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "timestamp": "2026-09-02 17:11:15"
+        }
+      ],
+      "processedEventIds": [
+        "UID-120357"
+      ],
+      "snapshots": [
+        {
+          "eventId": "UID-120357",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "score": 18,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-02 17:11:15"
+        }
+      ]
+    },
+    "IMEI:865478070201654": {
+      "score": 39.765,
+      "lastUpdated": "2026-09-02T13:27:55.000Z",
+      "contributors": [
+        {
+          "eventId": "UID-120372",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-02 17:27:55"
+        },
+        {
+          "eventId": "UID-120368",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-02 17:21:50"
+        },
+        {
+          "eventId": "UID-120367",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-02 17:17:26"
+        },
+        {
+          "eventId": "UID-120361",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-02 17:15:34"
+        }
+      ],
+      "processedEventIds": [
+        "UID-120361",
+        "UID-120367",
+        "UID-120368",
+        "UID-120372"
+      ],
+      "snapshots": [
+        {
+          "eventId": "UID-120372",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 40,
+          "previousScore": 29,
+          "level": "MEDIUM",
+          "timestamp": "2026-09-02 17:27:55"
+        },
+        {
+          "eventId": "UID-120368",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 29,
+          "previousScore": 18,
+          "level": "MEDIUM",
+          "timestamp": "2026-09-02 17:21:50"
+        },
+        {
+          "eventId": "UID-120367",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 19,
+          "previousScore": 8,
+          "level": "LOW",
+          "timestamp": "2026-09-02 17:17:26"
+        },
+        {
+          "eventId": "UID-120361",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 8,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-02 17:15:34"
+        }
+      ]
+    },
+    "IMEI:865478070266970": {
+      "score": 18,
+      "lastUpdated": "2026-09-02T13:35:02.000Z",
+      "contributors": [
+        {
+          "eventId": "UID-120377",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "timestamp": "2026-09-02 17:35:02"
+        }
+      ],
+      "processedEventIds": [
+        "UID-120377"
+      ],
+      "snapshots": [
+        {
+          "eventId": "UID-120377",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "score": 18,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-02 17:35:02"
+        }
+      ]
+    },
+    "IMEI:865478070207750": {
+      "score": 18.828333333333333,
+      "lastUpdated": "2026-09-02T13:37:04.000Z",
+      "contributors": [
+        {
+          "eventId": "UID-120381",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-02 17:37:04"
+        },
+        {
+          "eventId": "UID-120378",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-02 17:35:21"
+        }
+      ],
+      "processedEventIds": [
+        "UID-120378",
+        "UID-120381"
+      ],
+      "snapshots": [
+        {
+          "eventId": "UID-120381",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 19,
+          "previousScore": 8,
+          "level": "LOW",
+          "timestamp": "2026-09-02 17:37:04"
+        },
+        {
+          "eventId": "UID-120378",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 8,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-02 17:35:21"
+        }
+      ]
+    },
+    "PLATE:P17584": {
+      "score": 0,
+      "lastUpdated": "2026-09-01T06:30:00.000Z",
+      "contributors": [
+        {
+          "eventId": "UID-1002",
+          "alertType": "ignition_on",
+          "alertLabel": "Ignition ON",
+          "netImpact": 1,
+          "timestamp": "2026-09-01 10:00:00"
+        }
+      ],
+      "processedEventIds": [
+        "UID-1002",
+        "UID-1003"
+      ],
+      "snapshots": [
+        {
+          "eventId": "UID-1003",
+          "alertType": "ignition_off",
+          "alertLabel": "Ignition OFF",
+          "netImpact": 0,
+          "score": 0,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-01 10:30:00"
+        },
+        {
+          "eventId": "UID-1002",
+          "alertType": "ignition_on",
+          "alertLabel": "Ignition ON",
+          "netImpact": 1,
+          "score": 1,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-01 10:00:00"
+        }
+      ]
+    },
+    "PLATE:S23401": {
+      "score": 3,
+      "lastUpdated": "2026-09-01T06:00:00.000Z",
+      "contributors": [
+        {
+          "eventId": "UID-1004",
+          "alertType": "idle",
+          "alertLabel": "Excessive Idle",
+          "netImpact": 3,
+          "timestamp": "2026-09-01 10:00:00"
+        }
+      ],
+      "processedEventIds": [
+        "UID-1004"
+      ],
+      "snapshots": [
+        {
+          "eventId": "UID-1004",
+          "alertType": "idle",
+          "alertLabel": "Excessive Idle",
+          "netImpact": 3,
+          "score": 3,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-01 10:00:00"
+        }
+      ]
+    }
+  },
+  "drivers": {
+    "DRIVER:RASHID": {
       "score": 18,
       "lastUpdated": "2026-09-02T10:00:00.000Z",
       "contributors": [
         {
-          "eventId": "UID-P4-42",
+          "eventId": "UID-902",
           "alertType": "speeding",
           "alertLabel": "Over Speed",
           "netImpact": 18,
@@ -172,11 +750,11 @@
         }
       ],
       "processedEventIds": [
-        "UID-P4-42"
+        "UID-902"
       ],
       "snapshots": [
         {
-          "eventId": "UID-P4-42",
+          "eventId": "UID-902",
           "alertType": "speeding",
           "alertLabel": "Over Speed",
           "netImpact": 18,
@@ -186,9 +764,7 @@
           "timestamp": "2026-09-02T10:00:00.000Z"
         }
       ]
-    }
-  },
-  "drivers": {
+    },
     "DRIVER:TARIQ": {
       "score": 18,
       "lastUpdated": "2026-09-02T10:00:00.000Z",

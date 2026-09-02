@@ -24,7 +24,7 @@ const RECONNECT_MULTIPLIER = 2;
 class EmailMonitor {
   constructor(onAlert) {
     this.onAlert     = onAlert;
-    this.alertParser = new AlertParser();
+    this.alertParser = new AlertParser(null, { persistRisk: true });
     this.client      = null;
     this.running     = false;
     this._polling    = false;

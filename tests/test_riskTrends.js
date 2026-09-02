@@ -334,12 +334,12 @@ runTest('15 — riskTrend object serializes cleanly to JSON (no NaN, undefined)'
 
 // ── 16. Restart & Persistence Safety ─────────────────────────────────────────
 runTest('16 — Snapshots persist across engine restart for historical trend calculation', () => {
-  const testStatePath = path.join(__dirname, '../data/risk_state.json');
-  if (fs.existsSync(testStatePath)) {
-    try { fs.unlinkSync(testStatePath); } catch {}
+  const scratchStatePath = path.join(__dirname, '../scratch/test_risk_state_trend.json');
+  if (fs.existsSync(scratchStatePath)) {
+    try { fs.unlinkSync(scratchStatePath); } catch {}
   }
 
-  const e1 = new RiskEngine({ persist: true });
+  const e1 = new RiskEngine({ persist: true, filePath: scratchStatePath });
   const t1 = new RiskTrendEngine();
 
   const c1 = { eventId: 'E-RST-1', alertType: 'speeding', severity: 'HIGH', timestamp: '2026-09-02T10:00:00.000Z', vehicle: { plate: 'RST-VEH' } };
@@ -351,7 +351,7 @@ runTest('16 — Snapshots persist across engine restart for historical trend cal
   t1.analyze(c2);
 
   // Reload state in engine 2
-  const e2 = new RiskEngine({ persist: true });
+  const e2 = new RiskEngine({ persist: true, filePath: scratchStatePath });
   const c3 = { eventId: 'E-RST-3', alertType: 'distraction', severity: 'HIGH', timestamp: '2026-09-02T10:05:00.000Z', vehicle: { plate: 'RST-VEH' } };
   c3.risk = e2.evaluate(c3);
   const res3 = t1.analyze(c3);
@@ -359,7 +359,7 @@ runTest('16 — Snapshots persist across engine restart for historical trend cal
   assert.ok(res3.vehicle);
   assert.strictEqual(res3.vehicle.topContributors.length, 3, 'All 3 contributor alert types must be aggregated after restart');
 
-  e2.resetState();
+  try { if (fs.existsSync(scratchStatePath)) fs.unlinkSync(scratchStatePath); } catch {}
 });
 
 // ── 17. Determinism ──────────────────────────────────────────────────────────

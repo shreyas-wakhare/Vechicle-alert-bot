@@ -46,12 +46,12 @@ const SEVERITY_ORDER = { LOW: 0, MEDIUM: 1, HIGH: 2, CRITICAL: 3 };
 const track9999 = new Track9999Parser();
 
 class AlertParser {
-  constructor(historyStore = null) {
-    this.contextBuilder = new EventContextBuilder(historyStore);
+  constructor(historyStore = null, options = {}) {
+    this.contextBuilder = new EventContextBuilder(historyStore, options);
   }
 
-  setHistoryStore(store) {
-    this.contextBuilder.setHistoryStore(store);
+  setHistoryStore(store, options = {}) {
+    this.contextBuilder.setHistoryStore(store, options);
   }
 
   parse(mail) {

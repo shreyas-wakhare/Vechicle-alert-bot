@@ -115,7 +115,7 @@ sec('APPLICATION STARTUP — REAL SERVICES (no WhatsApp)');
 
 let history, parser;
 try {
-  history = new HistoryStore();
+  history = new HistoryStore({ persist: false });
   inf(`HistoryStore loaded: ${history._records.length} alerts, UID watermark: ${history.getLastProcessedUID()}`);
   ok('HistoryStore initialized');
 } catch (e) {
@@ -647,7 +647,7 @@ history._flush(); // internal method
 setTimeout(() => {
   let rehydrated;
   try {
-    rehydrated = new HistoryStore();
+    rehydrated = new HistoryStore({ persist: false });
     ok(`I — New HistoryStore loaded: ${rehydrated._records.length} records`);
   } catch (e) {
     fail('I', `HistoryStore reload failed: ${e.message}`);

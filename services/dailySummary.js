@@ -7,6 +7,8 @@
 
 const config = require('../config/settings');
 const logger = require('../utils/logger');
+const AIFleetSynthesis = require('./aiFleetSynthesis');
+const MessageFormatter = require('./messageFormatter');
 
 const SUMMARY_HOUR = 17;
 const TIMEZONE     = 'Asia/Dubai';
@@ -17,6 +19,8 @@ class DailySummary {
     this.history  = history;
     this.whatsapp = whatsapp;
     this._timer   = null;
+    this.fleetSynth = new AIFleetSynthesis();
+    this.formatter  = new MessageFormatter();
   }
 
   start() {
@@ -101,6 +105,16 @@ class DailySummary {
         );
       }).join('\n\n');
 
+    let fleetAiBriefingText = null;
+    try {
+      const fleetResult = await this.fleetSynth.synthesizeFleet(recent, HOURS);
+      fleetAiBriefingText = this.formatter.formatFleetExecutiveBriefing(fleetResult);
+    } catch (aiErr) {
+      logger.warn(`Daily summary AI fleet synthesis exception: ${aiErr?.message || aiErr}`);
+    }
+
+    const aiBlock = fleetAiBriefingText ? `\n\n*🤖 AI FLEET EXECUTIVE BRIEFING*\n${fleetAiBriefingText}\n\n${'─'.repeat(28)}` : '';
+
     const msg =
       `📊 *DAILY FLEET SUMMARY*\n` +
       `📅 ${_fmtDate(dateKey)} (last 24h)\n` +
@@ -110,7 +124,7 @@ class DailySummary {
       `📋 Total alerts:    ${totalAlerts}\n` +
       `🛣️  Completed trips:  ${totalTrips} (${_fmtDur(totalTripMs)})\n` +
       `⏱️  Total idle time:  ${totalIdleMin} min\n` +
-      `\n${'─'.repeat(28)}\n\n` +
+      `${aiBlock}\n\n` +
       `*Per-Vehicle*\n\n` +
       `${vehicleLines}\n\n` +
       `${'─'.repeat(28)}\n` +

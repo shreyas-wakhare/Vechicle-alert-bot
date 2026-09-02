@@ -86,6 +86,7 @@ class RiskEngine {
    */
   constructor(options = {}) {
     this.persist = options.persist !== false;
+    this.stateFilePath = options.filePath || STATE_FILE_PATH;
     this.vehicles = new Map(); // vehicleKey -> EntityState
     this.drivers = new Map();  // driverKey -> EntityState
 
@@ -247,8 +248,8 @@ class RiskEngine {
   resetState() {
     this.vehicles.clear();
     this.drivers.clear();
-    if (this.persist && fs.existsSync(STATE_FILE_PATH)) {
-      try { fs.unlinkSync(STATE_FILE_PATH); } catch {}
+    if (this.persist && fs.existsSync(this.stateFilePath)) {
+      try { fs.unlinkSync(this.stateFilePath); } catch {}
     }
   }
 
@@ -374,9 +375,9 @@ class RiskEngine {
   }
 
   _loadState() {
-    if (!fs.existsSync(STATE_FILE_PATH)) return;
+    if (!fs.existsSync(this.stateFilePath)) return;
     try {
-      const raw = fs.readFileSync(STATE_FILE_PATH, 'utf8');
+      const raw = fs.readFileSync(this.stateFilePath, 'utf8');
       const json = JSON.parse(raw);
 
       if (json.vehicles && typeof json.vehicles === 'object') {
@@ -437,8 +438,8 @@ class RiskEngine {
         drivers: driversObj,
       };
 
-      fs.mkdirSync(path.dirname(STATE_FILE_PATH), { recursive: true });
-      fs.writeFileSync(STATE_FILE_PATH, JSON.stringify(payload, null, 2), 'utf8');
+      fs.mkdirSync(path.dirname(this.stateFilePath), { recursive: true });
+      fs.writeFileSync(this.stateFilePath, JSON.stringify(payload, null, 2), 'utf8');
     } catch (err) {
       logger.warn(`RiskEngine saveState warning: ${err?.message || err}`);
     }

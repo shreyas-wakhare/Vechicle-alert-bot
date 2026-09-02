@@ -45,13 +45,14 @@ runTest('1 — Initial risk state for new entity defaults to score 0 and LOW lev
 // ── 2. Score Boundaries (0 to 100) ──────────────────────────────────────────
 runTest('2 — Score is strictly bounded between 0 and 100', () => {
   const engine = new RiskEngine({ persist: false });
+  const now = new Date().toISOString();
   // Process 10 critical accidents
   for (let i = 0; i < 10; i++) {
     engine.evaluate({
       eventId: `EVT-CRIT-${i}`,
       alertType: 'accident',
       severity: 'CRITICAL',
-      timestamp: '2026-09-02T10:00:00.000Z',
+      timestamp: now,
       vehicle: { plate: 'BOUND-100' },
     });
   }
@@ -96,18 +97,19 @@ runTest('4 — Single speeding alert increases vehicle risk score', () => {
 // ── 5. Multiple Events Cumulative Impact ─────────────────────────────────────
 runTest('5 — Multiple different events accumulate risk score', () => {
   const engine = new RiskEngine({ persist: false });
+  const now = new Date().toISOString();
   engine.evaluate({
     eventId: 'EVT-MULT-1',
     alertType: 'speeding',
     severity: 'HIGH',
-    timestamp: '2026-09-02T10:00:00.000Z',
+    timestamp: now,
     vehicle: { plate: 'MULT-VEH' },
   });
   engine.evaluate({
     eventId: 'EVT-MULT-2',
     alertType: 'harsh_braking',
     severity: 'MEDIUM',
-    timestamp: '2026-09-02T10:02:00.000Z',
+    timestamp: now,
     vehicle: { plate: 'MULT-VEH' },
   });
   const res = engine.getVehicleRisk('PLATE:MULTVEH');
@@ -298,12 +300,13 @@ runTest('16 — Recovery alerts and decay never push score below 0', () => {
 // ── 17. Score Never Above 100 ────────────────────────────────────────────────
 runTest('17 — Score never exceeds maximum 100 boundary', () => {
   const engine = new RiskEngine({ persist: false });
+  const now = new Date().toISOString();
   for (let i = 0; i < 5; i++) {
     engine.evaluate({
       eventId: `EVT-MAX-${i}`,
       alertType: 'accident', // +45 each
       severity: 'CRITICAL',
-      timestamp: '2026-09-02T10:00:00.000Z',
+      timestamp: now,
       vehicle: { plate: 'MAX-VEH' },
     });
   }
@@ -367,25 +370,25 @@ runTest('21 — Handles malformed null/undefined context gracefully', () => {
 
 // ── 22. Restart & Persistence ────────────────────────────────────────────────
 runTest('22 — State persists to disk and reloads cleanly', () => {
-  const testStatePath = path.join(__dirname, '../data/risk_state.json');
-  // Clean state file before test
-  if (fs.existsSync(testStatePath)) {
-    try { fs.unlinkSync(testStatePath); } catch {}
+  const scratchStatePath = path.join(__dirname, '../scratch/test_risk_state_foundation.json');
+  if (fs.existsSync(scratchStatePath)) {
+    try { fs.unlinkSync(scratchStatePath); } catch {}
   }
 
-  const engine1 = new RiskEngine({ persist: true });
+  const engine1 = new RiskEngine({ persist: true, filePath: scratchStatePath });
+  const now = new Date().toISOString();
   engine1.evaluate({
     eventId: 'EVT-PERS-1',
     alertType: 'speeding',
     severity: 'HIGH',
-    timestamp: '2026-09-02T10:00:00.000Z',
+    timestamp: now,
     vehicle: { plate: 'PERS-VEH', driver: 'PersistDriver' },
   });
 
   // Create second instance that reloads state from disk
-  const engine2 = new RiskEngine({ persist: true });
-  const vRes = engine2.getVehicleRisk('PLATE:PERSVEH');
-  const dRes = engine2.getDriverRisk('DRIVER:PERSISTDRIVER');
+  const engine2 = new RiskEngine({ persist: true, filePath: scratchStatePath });
+  const vRes = engine2.getVehicleRisk('PLATE:PERSVEH', '2026-09-02T10:00:00.000Z');
+  const dRes = engine2.getDriverRisk('DRIVER:PERSISTDRIVER', '2026-09-02T10:00:00.000Z');
 
   assert.ok(vRes, 'Persisted vehicle risk must reload');
   assert.strictEqual(vRes.score, 18);
@@ -420,12 +423,13 @@ runTest('23 — Evaluating same sequence produces identical final score', () => 
 // ── 24. Large Number of Sequential Events ─────────────────────────────────────
 runTest('24 — Sequential processing of 100 events handles memory cleanly', () => {
   const engine = new RiskEngine({ persist: false });
+  const now = new Date().toISOString();
   for (let i = 0; i < 100; i++) {
     engine.evaluate({
       eventId: `EVT-STRESS-${i}`,
       alertType: 'speeding',
       severity: 'HIGH',
-      timestamp: '2026-09-02T10:00:00.000Z',
+      timestamp: now,
       vehicle: { plate: 'STRESS-VEH' },
     });
   }

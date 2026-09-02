@@ -10,7 +10,8 @@ const HistoryStore     = require('./services/historyStore');
 const HealthMonitor    = require('./services/healthMonitor');
 const DailySummary     = require('./services/dailySummary');
 const BatteryMonitor   = require('./services/batteryMonitor');
-const MessageFormatter = require('./services/messageFormatter');
+const MessageFormatter     = require('./services/messageFormatter');
+const AIExecutiveSynthesis = require('./services/aiExecutiveSynthesis');
 const logger           = require('./utils/logger');
 
 process.on('uncaughtException',  (err) => logger.fatal('Uncaught exception:',  err.message, err.stack));
@@ -47,6 +48,7 @@ function acquireInstanceLock() {
 }
 
 const formatter = new MessageFormatter();
+const aiSynthesisEngine = new AIExecutiveSynthesis();
 
 async function main() {
   acquireInstanceLock();
@@ -174,8 +176,26 @@ async function main() {
       return;
     }
 
+    // Invoke AI Executive Synthesis in production pipeline
+    if (context) {
+      try {
+        context.aiSynthesis = await aiSynthesisEngine.synthesize(context, mail);
+      } catch (aiErr) {
+        logger.warn(`AI executive synthesis exception: ${aiErr?.message || aiErr}`);
+      }
+    }
+
     const { text, criticalLevel } = formatter.format(alertDef, fields);
-    await whatsapp.sendToGroup(text);
+    let messageToSend = text;
+
+    if (context?.aiSynthesis) {
+      const briefing = formatter.formatExecutiveBriefing(context);
+      if (briefing) {
+        messageToSend = `${text}\n\n*🤖 EXECUTIVE AI SYNTHESIS*\n${briefing}`;
+      }
+    }
+
+    await whatsapp.sendToGroup(messageToSend);
 
     if (criticalLevel >= 3) {
       const sev    = '🔴'.repeat(criticalLevel);

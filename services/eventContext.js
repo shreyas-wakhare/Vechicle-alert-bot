@@ -18,25 +18,37 @@ const AlertCorrelationEngine     = require('./alertCorrelationEngine');
 const RiskEngine                 = require('./riskEngine');
 const RiskTrendEngine            = require('./riskTrendEngine');
 const OperationalRecommendationEngine = require('./operationalRecommendationEngine');
+const AIGroundTruthBuilder       = require('./aiGroundTruthBuilder');
+const AIFallbackEngine            = require('./aiFallbackEngine');
 
 class EventContextBuilder {
-  constructor(historyStore = null) {
-    this.historyStore = historyStore;
-    this.recentEngine = new RecentActivityEngine(historyStore);
+  constructor(historyStore = null, options = {}) {
+    const opts = (historyStore && typeof historyStore === 'object' && !historyStore.getRecentRecords) ? historyStore : options;
+    const store = (historyStore && typeof historyStore === 'object' && historyStore.getRecentRecords) ? historyStore : null;
+    this.historyStore = store;
+    this.recentEngine = new RecentActivityEngine(store);
     this.intelligenceEngine = new ContextIntelligenceEngine();
     this.correlationEngine = new AlertCorrelationEngine();
-    this.riskEngine = new RiskEngine();
+    this.riskEngine = opts.riskEngine || (
+      opts.persistRisk === true || opts.persist === true
+        ? new RiskEngine({ persist: true })
+        : new RiskEngine({ persist: false })
+    );
     this.trendEngine = new RiskTrendEngine();
     this.recommendationEngine = new OperationalRecommendationEngine();
+    this.aiGroundTruthBuilder = new AIGroundTruthBuilder();
+    this.aiFallbackEngine = new AIFallbackEngine();
   }
 
-  /**
-   * Set or update the HistoryStore reference for ignition/trip state hooks.
-   * @param {Object} store - HistoryStore instance
-   */
-  setHistoryStore(store) {
+  setHistoryStore(store, options = {}) {
     this.historyStore = store;
     this.recentEngine.setHistoryStore(store);
+    if (options.riskEngine) {
+      this.riskEngine = options.riskEngine;
+    } else if (typeof options.persistRisk === 'boolean' || typeof options.persist === 'boolean') {
+      const shouldPersist = options.persistRisk === true || options.persist === true;
+      this.riskEngine = new RiskEngine({ persist: shouldPersist });
+    }
   }
 
   /**
@@ -198,6 +210,15 @@ class EventContextBuilder {
         vehicle: null,
         driver: null,
       };
+    }
+
+    try {
+      context.aiGroundTruth = this.aiGroundTruthBuilder.build(context, mail);
+      context.aiSynthesis = this.aiFallbackEngine.synthesizeFallback(context.aiGroundTruth);
+    } catch (err) {
+      logger.error(`AIGroundTruthBuilder / AIFallbackEngine error: ${err?.message || err}`);
+      context.aiGroundTruth = null;
+      context.aiSynthesis = null;
     }
 
     logger.debug(

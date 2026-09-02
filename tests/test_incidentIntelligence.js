@@ -315,12 +315,17 @@ runTest('W — Initiating event is chronological first event, primaryTrigger is 
 
 // ── Test Suite X: State Persistence Schema Audit ────────────────────────────
 runTest('X — state.json contains valid production schema fields', () => {
-  const statePath = require('path').join(__dirname, '../data/state.json');
-  const stateData = require(statePath);
+  const HistoryStore = require('../services/historyStore');
+  const scratchStatePath = require('path').join(__dirname, '../scratch/test_state.json');
+  const hs = new HistoryStore({ stateFile: scratchStatePath, persist: true });
+  hs._stateDirty = true;
+  hs._flush(); // write state.json synchronously
+  const stateData = JSON.parse(require('fs').readFileSync(scratchStatePath, 'utf8'));
   assert.ok(stateData, 'state.json must exist');
   assert.strictEqual(typeof stateData.lastIgnitionOn, 'object', 'lastIgnitionOn must be object');
   assert.strictEqual(typeof stateData.lastIgnitionOff, 'object', 'lastIgnitionOff must be object');
   assert.strictEqual(typeof stateData.lastProcessedUID, 'number', 'lastProcessedUID must be number');
+  try { require('fs').unlinkSync(scratchStatePath); } catch {}
 });
 
 console.log('\n═══════════════════════════════════════════════════════════════');

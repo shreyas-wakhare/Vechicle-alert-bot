@@ -151,6 +151,136 @@ class MessageFormatter {
     };
   }
 
+  formatExecutiveBriefing(context) {
+    if (!context || typeof context !== 'object') return null;
+
+    const synth = context.aiSynthesis;
+    if (!synth) return null;
+
+    const lines = [];
+    const event = context.alertLabel || context.alertType || 'Alert';
+    const riskLevel = context.risk?.vehicleRisk?.level || context.riskLevel || 'MEDIUM';
+    const plate = context.vehicle?.plate || 'N/A';
+    const driver = context.vehicle?.driver || null;
+
+    lines.push(`🚨 *${riskLevel} RISK — ${event.toUpperCase()}*`);
+    lines.push(`🚗 *Vehicle:* ${plate}${driver ? ` | 👤 *Driver:* ${driver}` : ''}`);
+    lines.push('');
+    lines.push(`*Executive Briefing:*`);
+    lines.push(synth.summary);
+    lines.push('');
+    if (synth.operationalMeaning) {
+      lines.push(`*Operational Impact:*`);
+      lines.push(synth.operationalMeaning);
+      lines.push('');
+    }
+    if (synth.recommendedAction?.directive) {
+      lines.push(`*Recommended Action:*`);
+      lines.push(synth.recommendedAction.directive);
+    }
+
+    return lines.join('\n');
+  }
+
+  /**
+   * Formats a Fleet Executive Briefing object for WhatsApp delivery.
+   *
+   * @param {Object} fleetSynthesis - Feature #4 Phase 3 fleet synthesis object
+   * @returns {string|null} Formatted WhatsApp message text
+   */
+  formatFleetExecutiveBriefing(fleetSynthesis) {
+    if (!fleetSynthesis || typeof fleetSynthesis !== 'object') return null;
+
+    const lines = [];
+    lines.push(`📊 *EXECUTIVE FLEET BRIEFING*`);
+    if (fleetSynthesis.fleetStatus) {
+      lines.push(`🚦 *Status:* ${fleetSynthesis.fleetStatus}`);
+    }
+    lines.push('');
+    if (fleetSynthesis.executiveSummary) {
+      lines.push(`*Executive Summary:*`);
+      lines.push(fleetSynthesis.executiveSummary);
+      lines.push('');
+    }
+
+    if (Array.isArray(fleetSynthesis.topPriorities) && fleetSynthesis.topPriorities.length > 0) {
+      lines.push(`*Top Priority Vehicles:*`);
+      fleetSynthesis.topPriorities.slice(0, 5).forEach((p, idx) => {
+        const emoji = p.riskLevel === 'CRITICAL' ? '🔴' : (p.riskLevel === 'HIGH' ? '🟠' : '🟡');
+        const driverText = p.driver ? ` (${p.driver})` : '';
+        lines.push(`${idx + 1}. ${emoji} *${p.vehicle}*${driverText} — ${p.reason}`);
+        if (p.action) {
+          lines.push(`   ↳ *Action:* ${p.action}`);
+        }
+      });
+      lines.push('');
+    }
+
+    if (Array.isArray(fleetSynthesis.dominantPatterns) && fleetSynthesis.dominantPatterns.length > 0) {
+      lines.push(`*Dominant Patterns:*`);
+      fleetSynthesis.dominantPatterns.slice(0, 3).forEach(pattern => {
+        lines.push(`• ${pattern}`);
+      });
+      lines.push('');
+    }
+
+    if (fleetSynthesis.operationalFocus) {
+      lines.push(`*Manager Operational Focus:*`);
+      lines.push(fleetSynthesis.operationalFocus);
+    }
+
+    return lines.join('\n');
+  }
+
+  /**
+   * Formats a Fleet Advisor Output object for WhatsApp delivery.
+   *
+   * @param {Object} advisorOutput - Feature #4 Phase 4 advisor output object
+   * @returns {string|null} Formatted WhatsApp message text
+   */
+  formatFleetAdvisorBriefing(advisorOutput) {
+    if (!advisorOutput || typeof advisorOutput !== 'object') return null;
+
+    const lines = [];
+    lines.push(`🧠 *AI FLEET OPERATIONS ADVISOR*`);
+    if (advisorOutput.advisorStatus) {
+      const emoji = advisorOutput.advisorStatus === 'ACTION_REQUIRED' ? '🚨' : '🚦';
+      lines.push(`${emoji} *Status:* ${advisorOutput.advisorStatus}`);
+    }
+    lines.push('');
+    if (advisorOutput.managerSummary) {
+      lines.push(`*Manager Summary:*`);
+      lines.push(advisorOutput.managerSummary);
+      lines.push('');
+    }
+
+    if (Array.isArray(advisorOutput.priorityActionPlan) && advisorOutput.priorityActionPlan.length > 0) {
+      lines.push(`*Priority Action Plan:*`);
+      advisorOutput.priorityActionPlan.slice(0, 5).forEach((item, idx) => {
+        const uEmoji = (item.urgency === 'IMMEDIATE_ACTION' || item.priorityTier <= 2) ? '🔴' : '🟠';
+        const driverText = item.driver ? ` (${item.driver})` : '';
+        lines.push(`${idx + 1}. ${uEmoji} *${item.vehicle}*${driverText} — *${item.urgency || 'MONITOR'}*`);
+        if (item.category) lines.push(`   ↳ *Category:* ${item.category}`);
+        if (item.directive) lines.push(`   ↳ *Directive:* ${item.directive}`);
+        if (item.operationalRationale) lines.push(`   ↳ *Rationale:* ${item.operationalRationale}`);
+      });
+      lines.push('');
+    }
+
+    if (advisorOutput.fleetResourceAllocation) {
+      lines.push(`*Resource Allocation:*`);
+      lines.push(advisorOutput.fleetResourceAllocation);
+      lines.push('');
+    }
+
+    if (advisorOutput.preventativeGuidance) {
+      lines.push(`*Preventative Guidance:*`);
+      lines.push(advisorOutput.preventativeGuidance);
+    }
+
+    return lines.join('\n');
+  }
+
   _dubaiTime(raw) {
     if (!raw) return 'N/A';
     try {
