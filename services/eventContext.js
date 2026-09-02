@@ -15,6 +15,9 @@ const logger                     = require('../utils/logger');
 const RecentActivityEngine       = require('./recentActivityEngine');
 const ContextIntelligenceEngine  = require('./contextIntelligenceEngine');
 const AlertCorrelationEngine     = require('./alertCorrelationEngine');
+const RiskEngine                 = require('./riskEngine');
+const RiskTrendEngine            = require('./riskTrendEngine');
+const OperationalRecommendationEngine = require('./operationalRecommendationEngine');
 
 class EventContextBuilder {
   constructor(historyStore = null) {
@@ -22,6 +25,9 @@ class EventContextBuilder {
     this.recentEngine = new RecentActivityEngine(historyStore);
     this.intelligenceEngine = new ContextIntelligenceEngine();
     this.correlationEngine = new AlertCorrelationEngine();
+    this.riskEngine = new RiskEngine();
+    this.trendEngine = new RiskTrendEngine();
+    this.recommendationEngine = new OperationalRecommendationEngine();
   }
 
   /**
@@ -158,6 +164,39 @@ class EventContextBuilder {
         durationMs: 0,
         windowMinutes: 15,
         generatedAt: new Date().toISOString(),
+      };
+    }
+
+    try {
+      context.risk = this.riskEngine.evaluate(context);
+    } catch (err) {
+      logger.error(`RiskEngine error: ${err?.message || err}`);
+      context.risk = {
+        generatedAt: new Date().toISOString(),
+        vehicleRisk: null,
+        driverRisk: null,
+      };
+    }
+
+    try {
+      context.riskTrend = this.trendEngine.analyze(context);
+    } catch (err) {
+      logger.error(`RiskTrendEngine error: ${err?.message || err}`);
+      context.riskTrend = {
+        generatedAt: new Date().toISOString(),
+        vehicle: null,
+        driver: null,
+      };
+    }
+
+    try {
+      context.riskRecommendation = this.recommendationEngine.generate(context);
+    } catch (err) {
+      logger.error(`OperationalRecommendationEngine error: ${err?.message || err}`);
+      context.riskRecommendation = {
+        generatedAt: new Date().toISOString(),
+        vehicle: null,
+        driver: null,
       };
     }
 

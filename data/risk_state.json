@@ -1,0 +1,221 @@
+{
+  "updatedAt": "2026-09-02T08:59:04.960Z",
+  "vehicles": {
+    "PLATE:RNDVEH": {
+      "score": 18,
+      "lastUpdated": "2026-09-02T10:00:00.000Z",
+      "contributors": [
+        {
+          "eventId": "E-RND-1",
+          "alertType": "speeding",
+          "alertLabel": "speeding",
+          "netImpact": 18,
+          "timestamp": "2026-09-02T10:00:00.000Z"
+        }
+      ],
+      "processedEventIds": [
+        "E-RND-1"
+      ],
+      "snapshots": [
+        {
+          "eventId": "E-RND-1",
+          "alertType": "speeding",
+          "alertLabel": "speeding",
+          "netImpact": 18,
+          "score": 18,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-02T10:00:00.000Z"
+        }
+      ]
+    },
+    "PLATE:JSONSAFEVEH": {
+      "score": 18,
+      "lastUpdated": "2026-09-02T10:00:00.000Z",
+      "contributors": [
+        {
+          "eventId": "UID-P4-38",
+          "alertType": "speeding",
+          "alertLabel": "Over Speed",
+          "netImpact": 18,
+          "timestamp": "2026-09-02T10:00:00.000Z"
+        }
+      ],
+      "processedEventIds": [
+        "UID-P4-38"
+      ],
+      "snapshots": [
+        {
+          "eventId": "UID-P4-38",
+          "alertType": "speeding",
+          "alertLabel": "Over Speed",
+          "netImpact": 18,
+          "score": 18,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-02T10:00:00.000Z"
+        }
+      ]
+    },
+    "PLATE:NOCYCLEVEH": {
+      "score": 18,
+      "lastUpdated": "2026-09-02T10:00:00.000Z",
+      "contributors": [
+        {
+          "eventId": "UID-P4-39",
+          "alertType": "distraction",
+          "alertLabel": "Driver Distracted",
+          "netImpact": 18,
+          "timestamp": "2026-09-02T10:00:00.000Z"
+        }
+      ],
+      "processedEventIds": [
+        "UID-P4-39"
+      ],
+      "snapshots": [
+        {
+          "eventId": "UID-P4-39",
+          "alertType": "distraction",
+          "alertLabel": "Driver Distracted",
+          "netImpact": 18,
+          "score": 18,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-02T10:00:00.000Z"
+        }
+      ]
+    },
+    "PLATE:D31498": {
+      "score": 36,
+      "lastUpdated": "2026-09-02T06:00:00.000Z",
+      "contributors": [
+        {
+          "eventId": "EVT-1788328800000",
+          "alertType": "speeding",
+          "alertLabel": "Over Speed",
+          "netImpact": 18,
+          "timestamp": "2026-09-02 10:00:00"
+        },
+        {
+          "eventId": "UID-P4-40",
+          "alertType": "speeding",
+          "alertLabel": "Over Speed",
+          "netImpact": 18,
+          "timestamp": "2026-09-02T10:00:00.000Z"
+        }
+      ],
+      "processedEventIds": [
+        "UID-P4-40",
+        "EVT-1788328800000"
+      ],
+      "snapshots": [
+        {
+          "eventId": "EVT-1788328800000",
+          "alertType": "speeding",
+          "alertLabel": "Over Speed",
+          "netImpact": 18,
+          "score": 36,
+          "previousScore": 18,
+          "level": "MEDIUM",
+          "timestamp": "2026-09-02 10:00:00"
+        },
+        {
+          "eventId": "UID-P4-40",
+          "alertType": "speeding",
+          "alertLabel": "Over Speed",
+          "netImpact": 18,
+          "score": 18,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-02T10:00:00.000Z"
+        }
+      ]
+    },
+    "PLATE:CC48315": {
+      "score": 18,
+      "lastUpdated": "2026-09-02T06:00:00.000Z",
+      "contributors": [
+        {
+          "eventId": "EVT-1788328800000",
+          "alertType": "camera_blocked",
+          "alertLabel": "Camera Blocked",
+          "netImpact": 18,
+          "timestamp": "2026-09-02 10:00:00"
+        }
+      ],
+      "processedEventIds": [
+        "EVT-1788328800000"
+      ],
+      "snapshots": [
+        {
+          "eventId": "EVT-1788328800000",
+          "alertType": "camera_blocked",
+          "alertLabel": "Camera Blocked",
+          "netImpact": 18,
+          "score": 18,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-02 10:00:00"
+        }
+      ]
+    },
+    "PLATE:AIREADYVEH": {
+      "score": 18,
+      "lastUpdated": "2026-09-02T10:00:00.000Z",
+      "contributors": [
+        {
+          "eventId": "UID-P4-42",
+          "alertType": "speeding",
+          "alertLabel": "Over Speed",
+          "netImpact": 18,
+          "timestamp": "2026-09-02T10:00:00.000Z"
+        }
+      ],
+      "processedEventIds": [
+        "UID-P4-42"
+      ],
+      "snapshots": [
+        {
+          "eventId": "UID-P4-42",
+          "alertType": "speeding",
+          "alertLabel": "Over Speed",
+          "netImpact": 18,
+          "score": 18,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-02T10:00:00.000Z"
+        }
+      ]
+    }
+  },
+  "drivers": {
+    "DRIVER:TARIQ": {
+      "score": 18,
+      "lastUpdated": "2026-09-02T10:00:00.000Z",
+      "contributors": [
+        {
+          "eventId": "UID-P4-42",
+          "alertType": "speeding",
+          "alertLabel": "Over Speed",
+          "netImpact": 18,
+          "timestamp": "2026-09-02T10:00:00.000Z"
+        }
+      ],
+      "processedEventIds": [
+        "UID-P4-42"
+      ],
+      "snapshots": [
+        {
+          "eventId": "UID-P4-42",
+          "alertType": "speeding",
+          "alertLabel": "Over Speed",
+          "netImpact": 18,
+          "score": 18,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-02T10:00:00.000Z"
+        }
+      ]
+    }
+  }
+}
