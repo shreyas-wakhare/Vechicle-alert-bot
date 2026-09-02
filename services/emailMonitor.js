@@ -170,6 +170,7 @@ class EmailMonitor {
   async _processMessage(msg) {
     try {
       const parsed  = await simpleParser(msg.source);
+      parsed.uid    = msg.uid;
       const fromAddr = parsed.from?.value?.[0]?.address || '';
 
       // Accept emails from any known sender

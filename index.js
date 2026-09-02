@@ -57,9 +57,21 @@ async function main() {
   whatsapp.setHistoryStore(history);
   await whatsapp.initialize();
 
-  const emailMonitor = new EmailMonitor(async ({ alertDef, fields }, mail) => {
+  const emailMonitor = new EmailMonitor(async ({ alertDef, fields, context }, mail) => {
     const plate   = fields.plate?.toUpperCase();
     const offTime = fields.alertTime || mail?.date?.toISOString();
+
+    if (context) {
+      const w15 = context.recentActivity?.windows?.['15m'];
+      const intel = context.contextIntelligence;
+      logger.info(
+        `   ↳ 🧬 [EventContext] ID: ${context.eventId} | Type: ${context.alertType} | Plate: ${context.vehicle?.plate || '?'}` +
+        ` | 15m events: ${w15?.totalEvents || 0} | Intelligence Signals: ${intel?.summary?.signalCount || 0} (${intel?.summary?.highestLevel || 'NONE'})`
+      );
+      if (intel?.signals?.length > 0) {
+        logger.info(`   ↳ 💡 [ContextIntelligence] Signals: ${intel.signals.map(s => `${s.code}[${s.level}]`).join(', ')}`);
+      }
+    }
 
     // ── IGNITION ON ────────────────────────────────────────────────────────
     if (alertDef.type === 'ignition_on') {
@@ -159,6 +171,7 @@ async function main() {
     }
   });
 
+  emailMonitor.alertParser.setHistoryStore(history);
   emailMonitor.setLastProcessedUID(history.getLastProcessedUID());
   emailMonitor.onUIDProcessed((uid) => history.setLastProcessedUID(uid));
 

@@ -13,10 +13,11 @@
  *   Format: "Tracker Event Notification[Event][Plate]"
  */
 
-const alertTypes      = require('../data/alertTypes.json');
-const config          = require('../config/settings');
-const Track9999Parser = require('./track9999Parser');
-const logger          = require('../utils/logger');
+const alertTypes          = require('../data/alertTypes.json');
+const config              = require('../config/settings');
+const Track9999Parser     = require('./track9999Parser');
+const EventContextBuilder = require('./eventContext');
+const logger              = require('../utils/logger');
 
 // ─── System 1 field patterns ──────────────────────────────────────────────
 const FIELD_PATTERNS = {
@@ -45,18 +46,33 @@ const SEVERITY_ORDER = { LOW: 0, MEDIUM: 1, HIGH: 2, CRITICAL: 3 };
 const track9999 = new Track9999Parser();
 
 class AlertParser {
+  constructor(historyStore = null) {
+    this.contextBuilder = new EventContextBuilder(historyStore);
+  }
+
+  setHistoryStore(store) {
+    this.contextBuilder.setHistoryStore(store);
+  }
+
   parse(mail) {
     const fromAddr = (mail.from?.value?.[0]?.address || '').toLowerCase();
+    let result = null;
 
     // ── Route to system 2 parser ─────────────────────────────────────────
     if (fromAddr.includes('track9999') ||
         (config.email.alertSender2 && fromAddr.includes(config.email.alertSender2.toLowerCase()))) {
       logger.info(`   ↳ Routing to track9999 parser (from: ${fromAddr})`);
-      return track9999.parse(mail);
+      result = track9999.parse(mail);
+    } else {
+      // ── System 1 parser ──────────────────────────────────────────────────
+      result = this._parseSystem1(mail);
     }
 
-    // ── System 1 parser ──────────────────────────────────────────────────
-    return this._parseSystem1(mail);
+    if (result) {
+      result.context = this.contextBuilder.build(result, mail);
+    }
+
+    return result;
   }
 
   _parseSystem1(mail) {
