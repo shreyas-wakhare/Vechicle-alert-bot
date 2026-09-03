@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-03T12:49:54.286Z",
+  "updatedAt": "2026-09-03T12:53:24.352Z",
   "vehicles": {
     "PLATE:D31498": {
       "score": 18,
@@ -672,8 +672,15 @@
     },
     "IMEI:865478070258308": {
       "score": 100,
-      "lastUpdated": "2026-09-03T12:49:25.000Z",
+      "lastUpdated": "2026-09-03T12:52:46.000Z",
       "contributors": [
+        {
+          "eventId": "UID-121531",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "timestamp": "2026-09-03 16:52:46"
+        },
         {
           "eventId": "UID-121529",
           "alertType": "distraction",
@@ -736,13 +743,6 @@
           "alertLabel": "Vibration Alert",
           "netImpact": 8,
           "timestamp": "2026-09-03 11:43:33"
-        },
-        {
-          "eventId": "UID-121010",
-          "alertType": "vibration",
-          "alertLabel": "Vibration Alert",
-          "netImpact": 8,
-          "timestamp": "2026-09-03 09:56:11"
         }
       ],
       "processedEventIds": [
@@ -756,9 +756,20 @@
         "UID-121522",
         "UID-121525",
         "UID-121527",
-        "UID-121529"
+        "UID-121529",
+        "UID-121531"
       ],
       "snapshots": [
+        {
+          "eventId": "UID-121531",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 16:52:46"
+        },
         {
           "eventId": "UID-121529",
           "alertType": "distraction",
