@@ -111,6 +111,17 @@ async function main() {
       }
 
       history.record(alertDef, fields, mail);
+
+      // If downtime was <= 30m, buffer this offline alert into the next normal batch report!
+      if (!lifecycleManager.isDowntimeSummaryRequired()) {
+        const isCriticalType = alertDef.type === 'sos' || alertDef.type === 'accident' || alertDef.type === 'engine_failure' || alertDef.severity === 'CRITICAL';
+        fleetBatcher.addRecoveredEvent({
+          alertDef,
+          fields,
+          timestamp: alertTimestamp,
+          isCritical: isCriticalType,
+        });
+      }
       return;
     }
 
@@ -297,8 +308,14 @@ async function main() {
     lifecycleManager.startHeartbeat();
     new HealthMonitor(emailMonitor, whatsapp, history).start();
     new DailySummary(history, whatsapp).start();
-    new BatteryMonitor(history, whatsapp).start();
-    fleetBatcher.start();
+    const batteryMonitor = new BatteryMonitor(history, whatsapp, { batcher: fleetBatcher });
+    fleetBatcher.setBatteryMonitor(batteryMonitor);
+    batteryMonitor.start();
+    fleetBatcher.start({
+      offlineStart,
+      startupTime,
+      isDowntimeReported: requiresDowntimeSummary,
+    });
     logger.banner('All systems operational ✅');
   });
 }

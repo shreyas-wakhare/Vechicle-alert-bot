@@ -50,14 +50,21 @@ class FleetAlertBatcher {
     this.fleetEngine = options.fleetEngine || new FleetIntelligenceEngine({ historyStore: history });
     this.fleetSynth = options.fleetSynth || new AIFleetSynthesis();
     this.formatter = options.formatter || new MessageFormatter();
+    this.batteryMonitor = options.batteryMonitor || null;
 
     this._buffer = [];
+    this._batteryWarnings = new Map();
     this._timer = null;
     this._isFlushing = false;
     this._running = false;
     this._lastFlushedWindowId = null;
+    this._flushedWindows = {};
 
     this._loadState();
+  }
+
+  setBatteryMonitor(batteryMonitor) {
+    this.batteryMonitor = batteryMonitor;
   }
 
   // ─── State Persistence ───────────────────────────────────────────────────
@@ -68,6 +75,7 @@ class FleetAlertBatcher {
       if (fs.existsSync(this._stateFile)) {
         const data = JSON.parse(fs.readFileSync(this._stateFile, 'utf8'));
         this._lastFlushedWindowId = data.lastFlushedWindowId || null;
+        this._flushedWindows = data.flushedWindows || {};
       }
     } catch (err) {
       logger.warn(`FleetAlertBatcher: could not load state from ${this._stateFile}: ${err.message}`);
@@ -78,10 +86,17 @@ class FleetAlertBatcher {
     if (!this._persist) return;
     try {
       fs.mkdirSync(path.dirname(this._stateFile), { recursive: true });
+      // Retain only the last 96 flushed windows (48 hours) to prevent unbounded growth
+      const keys = Object.keys(this._flushedWindows || {});
+      if (keys.length > 96) {
+        const toDelete = keys.slice(0, keys.length - 96);
+        for (const k of toDelete) delete this._flushedWindows[k];
+      }
       fs.writeFileSync(
         this._stateFile,
         JSON.stringify({
           lastFlushedWindowId: this._lastFlushedWindowId,
+          flushedWindows: this._flushedWindows,
           updatedAt: new Date().toISOString(),
         }, null, 2),
         'utf8'
@@ -89,6 +104,16 @@ class FleetAlertBatcher {
     } catch (err) {
       logger.warn(`FleetAlertBatcher: could not save state to ${this._stateFile}: ${err.message}`);
     }
+  }
+
+  /**
+   * Checks whether a specific windowId has already been durably flushed.
+   * @param {string} windowId
+   * @returns {boolean}
+   */
+  isWindowFlushed(windowId) {
+    if (!windowId) return false;
+    return !!(this._flushedWindows && this._flushedWindows[windowId]) || this._lastFlushedWindowId === windowId;
   }
 
   // ─── Window Timing ────────────────────────────────────────────────────────
@@ -121,12 +146,12 @@ class FleetAlertBatcher {
 
   // ─── Lifecycle & Timer ────────────────────────────────────────────────────
 
-  start() {
+  start(recoveryOptions = null) {
     if (this._running) return;
     this._running = true;
 
     logger.info(`FleetAlertBatcher started — 30-minute half-hour window schedule`);
-    this.recoverFromHistory();
+    this.recoverFromHistory(recoveryOptions || {});
     this._scheduleNextBoundary();
   }
 
@@ -162,63 +187,124 @@ class FleetAlertBatcher {
   // ─── Crash & Restart Recovery ─────────────────────────────────────────────
 
   /**
-   * Reconstructs unflushed non-critical alert records from HistoryStore for the current window.
-   * Runs upon process start/restart to ensure crash resilience without duplicate DB storage.
+   * Checks whether an alert record is critical based on taxonomy and dynamic thresholds.
+   * @param {Object} r
+   * @returns {boolean}
+   */
+  _isCriticalAlert(r) {
+    if (!r) return false;
+    if (r.alertType === 'sos' || r.alertType === 'accident' || r.alertType === 'engine_failure' || r.severity === 'CRITICAL') {
+      return true;
+    }
+    if (r.alertType === 'speeding' && r.speed && r.speedLimit) {
+      const excess = (parseInt(r.speed, 10) || 0) - (parseInt(r.speedLimit, 10) || 0);
+      if (excess >= 15) return true;
+    }
+    if (r.alertType === 'idle' && r.idleDurationMin >= 15) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Reconstructs unflushed alert records from HistoryStore into the active buffer.
+   * Runs upon process start/restart to ensure crash and downtime resilience.
+   *
+   * Handles:
+   * 1. Current active window recovery (crash within the same window).
+   * 2. Edge Case 1: Incomplete online window before shutdown.
+   * 3. Edge Case 2: Short downtime (<= 30m) offline alerts.
    *
    * Invariants:
-   * 1. Reconstructs only records strictly within [currentWindow.start, currentWindow.end).
-   * 2. Excludes critical alerts (sos, accident, engine_failure, severity CRITICAL, dynamic critical excess).
-   * 3. Excludes ignition_on (silent) and ignition_off (represented via valid completed trips).
-   * 4. Deduplicates against existing in-memory buffer items.
-   * 5. Never replays records through the intelligence pipeline or mutates RiskEngine.
-   * 6. Respects _lastFlushedWindowId: if current window was already flushed, skips recovery.
+   * - Excludes any window already durably marked as flushed in `isWindowFlushed(windowId)`.
+   * - If `isDowntimeReported` is true (downtime > 30m), excludes alerts in [offlineStart, startupTime)
+   *   (they are covered by SERVER DOWNTIME SUMMARY).
+   * - Excludes ignition_on and ignition_off.
+   * - Does not mutate RiskEngine or replay through real-time intelligence.
+   * - Deduplicates against existing entries in `_buffer`.
    *
-   * @param {Date} [targetDate] - Optional reference date
+   * @param {Object|Date} [options]
+   * @param {Date} [options.targetDate] - Reference timestamp (default: now)
+   * @param {Date} [options.offlineStart] - Timestamp when previous session went offline
+   * @param {Date} [options.startupTime] - Timestamp when current session started
+   * @param {boolean} [options.isDowntimeReported] - Whether Downtime Summary handled [offlineStart, startupTime)
    * @returns {number} Number of recovered records
    */
-  recoverFromHistory(targetDate = new Date()) {
+  recoverFromHistory(options = {}) {
     if (!this.history || typeof this.history.getRecentRecords !== 'function') return 0;
 
+    const opts = options instanceof Date ? { targetDate: options } : (options || {});
+    const targetDate = opts.targetDate || new Date();
+    const offlineStart = opts.offlineStart ? new Date(opts.offlineStart) : null;
+    const startupTime = opts.startupTime ? new Date(opts.startupTime) : null;
+    const isDowntimeReported = !!opts.isDowntimeReported;
+
     const currentWindow = this.getWindow(targetDate);
+    const currStartMs = currentWindow.start.getTime();
+    const currEndMs = currentWindow.end.getTime();
 
-    // If current window was already flushed before restart, do not recover
-    if (this._lastFlushedWindowId === currentWindow.windowId) {
-      logger.debug(`FleetAlertBatcher: window [${currentWindow.windowId}] already flushed — recovery skipped`);
-      return 0;
-    }
-
-    const startMs = currentWindow.start.getTime();
-    const endMs = currentWindow.end.getTime();
-
-    // Query in-memory records (1 hour covers the active 30m window)
-    const recentRecords = this.history.getRecentRecords(1) || [];
+    // Query in-memory records covering up to 48 hours for recovery
+    const recentRecords = this.history.getRecentRecords(48) || [];
     let recoveredCount = 0;
+
+    // Bounded interval for incomplete online window before shutdown:
+    // Strictly [incompleteOnlineStartMs, offlineStart)
+    const incompleteOnlineStartMs = offlineStart
+      ? Math.floor(offlineStart.getTime() / HALF_HOUR_MS) * HALF_HOUR_MS
+      : currStartMs;
 
     for (const r of recentRecords) {
       const recTime = new Date(r.receivedAt || r.loggedAt || targetDate).getTime();
-      // Strict half-open boundary: timestamp >= window.start && timestamp < window.end
-      if (recTime < startMs || recTime >= endMs) continue;
 
       // Exclude ignition events
       if (r.alertType === 'ignition_on' || r.alertType === 'ignition_off') continue;
 
-      // Exclude critical taxonomy alerts
-      const isTaxonomyCritical = r.alertType === 'sos' ||
-                                 r.alertType === 'accident' ||
-                                 r.alertType === 'engine_failure' ||
-                                 r.severity === 'CRITICAL';
-      if (isTaxonomyCritical) continue;
+      // 1. Determine which 30-minute window this alert fell into
+      const rWindow = this.getWindow(recTime);
 
-      // Exclude dynamic critical speeding (excess >= 15 km/h)
-      if (r.alertType === 'speeding' && r.speed && r.speedLimit) {
-        const excess = (parseInt(r.speed, 10) || 0) - (parseInt(r.speedLimit, 10) || 0);
-        if (excess >= 15) continue;
-      }
+      // 2. If that window was already durably flushed, skip!
+      if (this.isWindowFlushed(rWindow.windowId)) continue;
 
-      // Exclude dynamic critical idle (over >= 15 min)
-      if (r.alertType === 'idle' && r.idleDurationMin >= 15) {
+      // 3. Check if alert fell inside the downtime interval: [offlineStart, startupTime)
+      const wasInDowntime = offlineStart && startupTime && recTime >= offlineStart.getTime() && recTime < startupTime.getTime();
+
+      if (wasInDowntime && isDowntimeReported) {
+        // Handled by SERVER DOWNTIME SUMMARY (>30m downtime) — skip!
         continue;
       }
+
+      // Check critical status
+      const isCritical = this._isCriticalAlert(r);
+
+      // Determine eligibility:
+      // Case A: Short downtime (<=30m): [offlineStart, startupTime)
+      //         Eligible (both critical and non-critical recovered into batch)
+      // Case B: Incomplete online window before shutdown: strictly [incompleteOnlineStartMs, offlineStart)
+      //         Eligible (non-critical alerts recovered; live criticals were already sent)
+      // Case C: Current active window: strictly [currStartMs, currEndMs)
+      //         Eligible (non-critical alerts recovered; live criticals were already sent)
+
+      let shouldRecover = false;
+      let recordIsCritical = false;
+
+      if (wasInDowntime && !isDowntimeReported) {
+        shouldRecover = true;
+        recordIsCritical = isCritical;
+      } else if (offlineStart && recTime >= incompleteOnlineStartMs && recTime < offlineStart.getTime()) {
+        // Incomplete online window strictly bounded to [incompleteOnlineStartMs, offlineStart)
+        if (!isCritical) {
+          shouldRecover = true;
+          recordIsCritical = false;
+        }
+      } else if (recTime >= currStartMs && recTime < currEndMs) {
+        // Current active window
+        if (!isCritical) {
+          shouldRecover = true;
+          recordIsCritical = false;
+        }
+      }
+
+      if (!shouldRecover) continue;
 
       // Deduplication: skip if already present in buffer
       const plate = (r.plate || '').toUpperCase();
@@ -257,7 +343,7 @@ class FleetAlertBatcher {
         mail: null,
         timestamp: new Date(recTime),
         receivedAt: new Date(recTime),
-        isCritical: false,
+        isCritical: recordIsCritical,
         recovered: true,
       });
 
@@ -265,7 +351,7 @@ class FleetAlertBatcher {
     }
 
     if (recoveredCount > 0) {
-      logger.info(`FleetAlertBatcher: recovered ${recoveredCount} unflushed non-critical alert(s) from HistoryStore for window [${currentWindow.label}]`);
+      logger.info(`FleetAlertBatcher: recovered ${recoveredCount} unflushed alert(s) from HistoryStore`);
     }
 
     return recoveredCount;
@@ -312,6 +398,45 @@ class FleetAlertBatcher {
     );
   }
 
+  /**
+   * Adds a recovered alert into the buffer with deduplication.
+   * Used for offline alerts during short downtime (<=30m).
+   *
+   * @param {Object} item
+   * @param {Object} item.alertDef
+   * @param {Object} item.fields
+   * @param {Date|string} item.timestamp
+   * @param {boolean} [item.isCritical=false]
+   * @returns {boolean} Whether the event was added
+   */
+  addRecoveredEvent({ alertDef, fields, timestamp, isCritical = false }) {
+    const rawTime = timestamp || fields?.alertTime || new Date();
+    const t = new Date(rawTime);
+    const recTime = isNaN(t.getTime()) ? Date.now() : t.getTime();
+
+    const plate = (fields?.plate || '').toUpperCase();
+    const exists = this._buffer.some(e =>
+      (e.fields?.plate || '').toUpperCase() === plate &&
+      e.alertDef?.type === alertDef?.type &&
+      Math.abs(e.timestamp.getTime() - recTime) < 1000
+    );
+    if (exists) return false;
+
+    this._buffer.push({
+      alertDef,
+      fields: fields || {},
+      context: null,
+      mail: null,
+      timestamp: new Date(recTime),
+      receivedAt: new Date(recTime),
+      isCritical: !!isCritical,
+      recovered: true,
+    });
+
+    logger.info(`   ↳ 📥 [FleetAlertBatcher] Added recovered event: ${alertDef?.label || alertDef?.type} for ${plate || '?'}`);
+    return true;
+  }
+
   getBufferSize() {
     return this._buffer.length;
   }
@@ -322,6 +447,38 @@ class FleetAlertBatcher {
 
   clearBuffer() {
     this._buffer = [];
+  }
+
+  // ─── Battery Depletion / Inactivity ───────────────────────────────────────
+
+  /**
+   * Buffers or updates a battery depletion/inactivity warning for a vehicle.
+   * Keyed by normalized plate to prevent duplicate entries within the same window.
+   *
+   * @param {Object} item
+   * @param {string} item.plate
+   * @param {number} item.inactiveHours
+   * @param {string} [item.lastSeen]
+   * @param {number} [item.detectedAt]
+   */
+  addBatteryWarning({ plate, inactiveHours, lastSeen, detectedAt }) {
+    if (!plate) return;
+    const normPlate = plate.toUpperCase();
+    this._batteryWarnings.set(normPlate, {
+      plate: normPlate,
+      inactiveHours,
+      lastSeen,
+      detectedAt: detectedAt || Date.now(),
+    });
+    logger.info(`   ↳ 🔋 [FleetAlertBatcher] Buffered battery warning: ${normPlate} (${inactiveHours}h inactive)`);
+  }
+
+  getBatteryWarnings() {
+    return Array.from(this._batteryWarnings.values());
+  }
+
+  clearBatteryWarnings() {
+    this._batteryWarnings.clear();
   }
 
   // ─── Window Flush & Report Dispatch ───────────────────────────────────────
@@ -345,7 +502,7 @@ class FleetAlertBatcher {
       const { start, end, windowId, label, dateLabel, startHHMM, endHHMM } = window;
 
       // Duplicate prevention: do not re-send the same window
-      if (this._lastFlushedWindowId === windowId) {
+      if (this.isWindowFlushed(windowId)) {
         logger.debug(`FleetAlertBatcher: window [${windowId}] already flushed — skipping`);
         return { sent: false, reason: 'already_flushed', windowId, alertCount: 0 };
       }
@@ -363,23 +520,42 @@ class FleetAlertBatcher {
         }
       }
 
-      // Filter strictly for non-critical alerts
+      // Filter non-critical alerts vs recovered critical alerts
       const nonCriticalAlerts = windowEvents.filter(e => !e.isCritical);
+      const recoveredCriticals = windowEvents.filter(e => e.isCritical);
 
-      // Empty Window Behavior: send nothing if 0 non-critical alerts
-      if (nonCriticalAlerts.length === 0) {
-        logger.info(`FleetAlertBatcher: 0 non-critical alerts in window [${label}] — skipping report (empty window)`);
+      // Partition battery warnings into this window vs future windows
+      const windowBatteryWarnings = [];
+      const remainingBatteryWarnings = new Map();
+
+      for (const [plate, bw] of this._batteryWarnings.entries()) {
+        const detTime = bw.detectedAt || Date.now();
+        // Half-open interval: timestamp < end
+        if (detTime < end.getTime()) {
+          windowBatteryWarnings.push(bw);
+        } else {
+          remainingBatteryWarnings.set(plate, bw);
+        }
+      }
+
+      // Empty Window Behavior: send nothing if 0 alerts AND 0 battery warnings
+      if (nonCriticalAlerts.length === 0 && recoveredCriticals.length === 0 && windowBatteryWarnings.length === 0) {
+        logger.info(`FleetAlertBatcher: 0 alerts and 0 battery warnings in window [${label}] — skipping report (empty window)`);
         this._buffer = remainingEvents;
+        this._batteryWarnings = remainingBatteryWarnings;
         this._lastFlushedWindowId = windowId;
+        this._flushedWindows[windowId] = { flushedAt: new Date().toISOString(), alertCount: 0 };
         this._saveState();
         return { sent: false, reason: 'empty_window', windowId, alertCount: 0 };
       }
 
-      logger.info(`FleetAlertBatcher: flushing window [${label}] with ${nonCriticalAlerts.length} non-critical alert(s)...`);
+      logger.info(`FleetAlertBatcher: flushing window [${label}] with ${nonCriticalAlerts.length} non-critical alert(s), ${recoveredCriticals.length} recovered critical alert(s), and ${windowBatteryWarnings.length} battery warning(s)...`);
 
       // ─── Generate Consolidated Report ─────────────────────────────────────
       const reportText = await this._buildReport({
         nonCriticalAlerts,
+        recoveredCriticals,
+        batteryWarnings: windowBatteryWarnings,
         start,
         end,
         label,
@@ -394,15 +570,32 @@ class FleetAlertBatcher {
         logger.success(`FleetAlertBatcher: 📊 FLEET ALERT SUMMARY sent for window [${label}]`);
       }
 
-      // Advance buffer and update state
+      // Advance buffer and update remaining battery warnings
       this._buffer = remainingEvents;
+      this._batteryWarnings = remainingBatteryWarnings;
+
+      // Mark reported on battery monitor for all flushed battery warnings
+      if (this.batteryMonitor && typeof this.batteryMonitor.markReported === 'function') {
+        for (const bw of windowBatteryWarnings) {
+          try {
+            this.batteryMonitor.markReported(bw.plate);
+          } catch (err) {
+            logger.warn(`FleetAlertBatcher: could not mark ${bw.plate} as reported on BatteryMonitor: ${err.message}`);
+          }
+        }
+      }
+
       this._lastFlushedWindowId = windowId;
+      this._flushedWindows[windowId] = {
+        flushedAt: new Date().toISOString(),
+        alertCount: nonCriticalAlerts.length + recoveredCriticals.length + windowBatteryWarnings.length,
+      };
       this._saveState();
 
       return {
         sent: true,
         windowId,
-        alertCount: nonCriticalAlerts.length,
+        alertCount: nonCriticalAlerts.length + recoveredCriticals.length + windowBatteryWarnings.length,
         messageText: reportText,
       };
 
@@ -413,13 +606,20 @@ class FleetAlertBatcher {
 
   // ─── Report Builder ───────────────────────────────────────────────────────
 
-  async _buildReport({ nonCriticalAlerts, start, end, label, dateLabel, startHHMM, endHHMM }) {
-    // 1. Unique active vehicles strictly from non-critical alerts
-    const plates = [...new Set(nonCriticalAlerts.map(e => e.fields?.plate).filter(Boolean).map(p => p.toUpperCase()))];
+  async _buildReport({ nonCriticalAlerts, recoveredCriticals = [], batteryWarnings = [], start, end, label, dateLabel, startHHMM, endHHMM }) {
+    // 1. Unique active vehicles from alerts
+    const allAlerts = [...nonCriticalAlerts, ...recoveredCriticals];
+    const plates = [...new Set(allAlerts.map(e => e.fields?.plate).filter(Boolean).map(p => p.toUpperCase()))];
 
     // 2. Completed trips in window (valid trips ended strictly in [start, end))
     let completedTrips = 0;
-    if (this.history && typeof this.history.getRecentTrips === 'function') {
+    if (this.history && typeof this.history.getValidTripsInRange === 'function') {
+      try {
+        completedTrips = this.history.getValidTripsInRange(start, end).length;
+      } catch (err) {
+        logger.warn(`FleetAlertBatcher: trip calculation error: ${err.message}`);
+      }
+    } else if (this.history && typeof this.history.getRecentTrips === 'function') {
       try {
         const recentTrips = this.history.getRecentTrips(1); // Check last 1h
         completedTrips = recentTrips.filter(t => {
@@ -517,9 +717,31 @@ class FleetAlertBatcher {
     lines.push('');
     lines.push(`*Fleet Totals*`);
     lines.push(`🚗 Active vehicles: ${plates.length}`);
-    lines.push(`📋 Total alerts:    ${nonCriticalAlerts.length}`);
+    if (recoveredCriticals.length > 0) {
+      lines.push(`📋 Total alerts:    ${nonCriticalAlerts.length + recoveredCriticals.length}`);
+      lines.push(`   ↳ Non-critical:  ${nonCriticalAlerts.length}`);
+      lines.push(`   ↳ Recovered critical: ${recoveredCriticals.length}`);
+    } else {
+      lines.push(`📋 Total alerts:    ${nonCriticalAlerts.length}`);
+    }
     lines.push(`🛣️ Completed trips: ${completedTrips}`);
     lines.push(`⏱️ Total idle time: ${totalIdleMin} min`);
+
+    if (recoveredCriticals.length > 0) {
+      lines.push('');
+      lines.push('─'.repeat(28));
+      lines.push('');
+      lines.push(`*🚨 Critical Alerts (Recovered from offline period)*`);
+      lines.push(`🔴 Critical alerts: ${recoveredCriticals.length}`);
+      for (const ca of recoveredCriticals) {
+        const meta = ALERT_TYPE_MAP.get(ca.alertDef?.type);
+        const emoji = meta?.emoji || '🚨';
+        const label = ca.alertDef?.label || meta?.label || ca.alertDef?.type;
+        const timeStr = ca.timestamp.toLocaleTimeString('en-GB', { timeZone: TIMEZONE, hour: '2-digit', minute: '2-digit', hour12: false });
+        lines.push(`${emoji} ${label} — *${ca.fields?.plate || '?'}* (${timeStr})`);
+      }
+    }
+
     lines.push('');
     lines.push('');
     lines.push(`*🚨 Risk Overview*`);
@@ -535,12 +757,25 @@ class FleetAlertBatcher {
       lines.push(aiBriefingText);
     }
 
-    lines.push('');
-    lines.push('─'.repeat(28));
-    lines.push('');
-    lines.push(`*Per-Vehicle*`);
-    lines.push('');
-    lines.push(vehicleLines);
+    if (batteryWarnings && batteryWarnings.length > 0) {
+      lines.push('');
+      lines.push('─'.repeat(28));
+      lines.push('');
+      lines.push(`🔋 *BATTERY DEPLETION / INACTIVITY*`);
+      for (const bw of batteryWarnings) {
+        lines.push(`• ${bw.plate} — ${bw.inactiveHours}h inactive`);
+      }
+    }
+
+    if (vehicleLines) {
+      lines.push('');
+      lines.push('─'.repeat(28));
+      lines.push('');
+      lines.push(`*Per-Vehicle*`);
+      lines.push('');
+      lines.push(vehicleLines);
+    }
+
     lines.push('');
     lines.push('─'.repeat(28));
     lines.push(`_Next report in 30 minutes_`);

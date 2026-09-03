@@ -1,11 +1,11 @@
 {
-  "lastHeartbeatAt": "2026-09-03T08:58:38.661Z",
-  "lastShutdownAt": "2026-09-03T08:58:38.661Z",
-  "lastStartupAt": "2026-09-03T08:55:08.709Z",
+  "lastHeartbeatAt": "2026-09-03T12:51:55.353Z",
+  "lastShutdownAt": null,
+  "lastStartupAt": "2026-09-03T11:19:18.544Z",
   "lastReportedDowntime": {
-    "offlineStart": "2026-09-03T08:02:22.197Z",
-    "startupTime": "2026-09-03T08:55:08.709Z",
-    "durationMs": 3166512,
-    "reportedAt": "2026-09-03T08:55:17.065Z"
+    "offlineStart": "2026-09-03T10:44:24.831Z",
+    "startupTime": "2026-09-03T11:19:18.544Z",
+    "durationMs": 2093713,
+    "reportedAt": "2026-09-03T11:19:23.907Z"
   }
 }

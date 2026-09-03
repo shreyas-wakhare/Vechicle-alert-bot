@@ -142,15 +142,26 @@ class HistoryStore {
   }
 
   getLastIgnitionOn(plate) {
-    const v = this._state.lastIgnitionOn[plate?.toUpperCase()];
-    if (!v) return null;
-    if (typeof v === 'string') return { time: v, address: null, mapsUrl: null };
-    return v;
+    if (!plate) return null;
+    const norm = _normPlate(plate);
+    for (const [k, v] of Object.entries(this._state.lastIgnitionOn || {})) {
+      if (_normPlate(k) === norm) {
+        if (typeof v === 'string') return { time: v, address: null, mapsUrl: null };
+        return v;
+      }
+    }
+    return null;
   }
 
   clearIgnitionOn(plate) {
-    delete this._state.lastIgnitionOn[plate?.toUpperCase()];
-    this._stateDirty = true;
+    if (!plate) return;
+    const norm = _normPlate(plate);
+    for (const k of Object.keys(this._state.lastIgnitionOn || {})) {
+      if (_normPlate(k) === norm) {
+        delete this._state.lastIgnitionOn[k];
+        this._stateDirty = true;
+      }
+    }
   }
 
   recordIgnitionOff(plate, time) {
@@ -159,7 +170,12 @@ class HistoryStore {
   }
 
   getLastIgnitionOff(plate) {
-    return this._state.lastIgnitionOff[plate?.toUpperCase()] || null;
+    if (!plate) return null;
+    const norm = _normPlate(plate);
+    for (const [k, v] of Object.entries(this._state.lastIgnitionOff || {})) {
+      if (_normPlate(k) === norm) return v;
+    }
+    return null;
   }
 
   isSpuriousOff(plate, offTimeISO) {
@@ -365,19 +381,53 @@ class HistoryStore {
   }
 
   allPlates() {
-    return [...new Set([...this._records.map(r => r.plate), ...this._trips.map(t => t.plate)])];
+    const map = new Map();
+    for (const r of this._records) {
+      if (!r.plate) continue;
+      const norm = _normPlate(r.plate);
+      if (!norm) continue;
+      if (!map.has(norm)) map.set(norm, r.plate);
+    }
+    for (const t of this._trips) {
+      if (!t.plate) continue;
+      const norm = _normPlate(t.plate);
+      if (!norm) continue;
+      if (!map.has(norm)) map.set(norm, t.plate);
+    }
+    return Array.from(map.values());
   }
 
   lastIgnitionActivity(plate) {
-    const norm  = _normPlate(plate);
-    const trips = this._validTrips().filter(t => _normPlate(t.plate) === norm);
-    const on    = this.getLastIgnitionOn(plate);
-    const off   = this.getLastIgnitionOff(plate);
-    const times = [
-      on?.time ? new Date(on.time).getTime() : 0,
-      off       ? new Date(off).getTime()    : 0,
-      trips.length ? new Date(trips[trips.length-1].endTime).getTime() : 0,
-    ].filter(Boolean);
+    const norm = _normPlate(plate);
+    if (!norm) return 0;
+
+    // 1. Trips: evaluate all trips for this normalized plate
+    const trips = this._trips.filter(t => _normPlate(t.plate) === norm);
+    const lastTripTime = trips.length ? new Date(trips[trips.length - 1].endTime).getTime() : 0;
+
+    // 2. In-memory ignition states
+    const on = this.getLastIgnitionOn(plate);
+    const off = this.getLastIgnitionOff(plate);
+    const onTime = on?.time ? new Date(on.time).getTime() : 0;
+    const offTime = off ? new Date(off).getTime() : 0;
+
+    // 3. Telemetry and alert records in history store
+    const records = this._records.filter(r => _normPlate(r.plate) === norm);
+    let lastRecordTime = 0;
+    if (records.length > 0) {
+      for (let i = records.length - 1; i >= 0; i--) {
+        const r = records[i];
+        if (r && r.receivedAt) {
+          const t = new Date(r.receivedAt).getTime();
+          if (!isNaN(t) && t > lastRecordTime) {
+            lastRecordTime = t;
+            break;
+          }
+        }
+      }
+    }
+
+    const times = [lastTripTime, onTime, offTime, lastRecordTime].filter(Boolean);
     return times.length ? Math.max(...times) : 0;
   }
 
@@ -432,7 +482,7 @@ class HistoryStore {
   }
 }
 
-function _normPlate(p) { return (p || '').toUpperCase().replace(/[\s\/]/g, ''); }
+function _normPlate(p) { return (p || '').toUpperCase().replace(/[\s\/\-]/g, ''); }
 
 function _fmtDur(ms) {
   if (!ms || ms <= 0) return '0m';

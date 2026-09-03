@@ -118,6 +118,14 @@ function createMockHistory() {
       const cutoff = Date.now() - hours * 3600000;
       return trips.filter(t => !t.invalid && new Date(t.endTime).getTime() > cutoff);
     },
+    getValidTripsInRange: (startTime, endTime) => {
+      const startMs = new Date(startTime).getTime();
+      const endMs = new Date(endTime).getTime();
+      return trips.filter(t => {
+        const tEnd = new Date(t.endTime).getTime();
+        return tEnd >= startMs && tEnd < endMs && !t.invalid;
+      });
+    },
     getIdleStats: () => [],
     getAllVehicleSummaries: () => [],
     getVehicleSummary: () => null,
