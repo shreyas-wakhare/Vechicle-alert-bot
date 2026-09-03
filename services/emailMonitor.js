@@ -21,17 +21,30 @@ const RECONNECT_INIT_MS   = 5_000;
 const RECONNECT_MAX_MS    = 5 * 60_000;
 const RECONNECT_MULTIPLIER = 2;
 
+const STATES = {
+  DISCONNECTED: 'DISCONNECTED',
+  CONNECTING: 'CONNECTING',
+  CONNECTED: 'CONNECTED',
+  DEGRADED: 'DEGRADED',
+  RECONNECTING: 'RECONNECTING',
+  STOPPED: 'STOPPED',
+};
+
 class EmailMonitor {
   constructor(onAlert) {
     this.onAlert     = onAlert;
     this.alertParser = new AlertParser(null, { persistRisk: true });
     this.client      = null;
     this.running     = false;
+    this.state       = STATES.DISCONNECTED;
     this._polling    = false;
     this._lastProcessedUID  = 0;
     this._onStateChange     = null;
     this._reconnectDelay    = RECONNECT_INIT_MS;
     this._pollTimer         = null;
+    this._reconnectTimer    = null;
+    this._reconnectPromise  = null;
+    this._consecutiveSuccesses = 0;
     this.stats = {
       connectedAt: null, lastEmailAt: null, lastPollAt: null,
       lastPollFound: 0, reconnects: 0,
@@ -50,22 +63,37 @@ class EmailMonitor {
 
   async stop() {
     this.running = false;
-    clearInterval(this._pollTimer);
-    if (this.client) { try { await this.client.logout(); } catch {} }
+    this.state = STATES.STOPPED;
+    if (this._pollTimer) {
+      clearInterval(this._pollTimer);
+      this._pollTimer = null;
+    }
+    if (this._reconnectTimer) {
+      clearTimeout(this._reconnectTimer);
+      this._reconnectTimer = null;
+    }
+    this._reconnectPromise = null;
+    if (this.client) {
+      try { await this.client.logout(); } catch {}
+      this.client = null;
+    }
   }
 
-  isConnected() { return !!(this.client?.usable); }
+  isConnected() { return this.state === STATES.CONNECTED && !!(this.client?.usable); }
+  getState()     { return this.state; }
 
   setLastProcessedUID(uid) { this._lastProcessedUID = uid || 0; }
   onUIDProcessed(cb)       { this._onStateChange = cb; }
 
   _getSenders() {
-    const s = [config.email.alertSender];
-    if (config.email.alertSender2) s.push(config.email.alertSender2);
-    return s;
+    const s1 = config.email.alertSender || 'touchtrack@teamworldtechnology.com';
+    const s2 = config.email.alertSender2 || 'noreply@track9999.com';
+    return [...new Set([s1, s2])];
   }
 
   async _connect() {
+    if (!this.running || this.state === STATES.STOPPED) return false;
+    this.state = STATES.CONNECTING;
     logger.info(`Connecting to IMAP — ${config.email.host}:${config.email.port} ...`);
 
     this.client = new ImapFlow({
@@ -76,6 +104,9 @@ class EmailMonitor {
 
     this.client.on('error', (err) => {
       logger.error(`IMAP socket error: ${err.message}`);
+      if (this.state === STATES.CONNECTED) {
+        this.state = STATES.DEGRADED;
+      }
       this._scheduleReconnect();
     });
 
@@ -84,23 +115,37 @@ class EmailMonitor {
       await this.client.mailboxOpen('INBOX');
     } catch (err) {
       logger.error(`IMAP connect failed: ${err.message}`);
+      this.state = STATES.DEGRADED;
       this._scheduleReconnect();
-      return;
+      return false;
     }
 
     this.stats.connectedAt = new Date();
-    this._reconnectDelay   = RECONNECT_INIT_MS;
+    this.state = STATES.CONNECTED;
     logger.success(`IMAP connected — ${config.email.host}`);
 
-    clearInterval(this._pollTimer);
+    if (this._pollTimer) {
+      clearInterval(this._pollTimer);
+      this._pollTimer = null;
+    }
+
     await this._poll();
-    this._pollTimer = setInterval(() => this._poll(), POLL_INTERVAL_MS);
-    logger.info(`Poll loop active — every ${POLL_INTERVAL_MS / 1000}s`);
+    if (this.running && this.state !== STATES.STOPPED) {
+      this._pollTimer = setInterval(() => this._poll(), POLL_INTERVAL_MS);
+      logger.info(`Poll loop active — every ${POLL_INTERVAL_MS / 1000}s`);
+    }
+    return true;
   }
 
   async _poll() {
+    if (!this.running || this.state === STATES.STOPPED || this.state === STATES.RECONNECTING) return;
     if (this._polling) return;
-    if (!this.client?.usable) { this._scheduleReconnect(); return; }
+
+    if (!this.client?.usable) {
+      this.state = STATES.DEGRADED;
+      this._scheduleReconnect();
+      return;
+    }
 
     this._polling = true;
     this.stats.lastPollAt = new Date();
@@ -112,6 +157,7 @@ class EmailMonitor {
       // Search for each sender independently and merge UIDs
       const senders = this._getSenders();
       const allUIDs = new Set();
+      let searchFailed = false;
 
       for (const sender of senders) {
         try {
@@ -119,7 +165,14 @@ class EmailMonitor {
           if (Array.isArray(uids)) uids.forEach(u => allUIDs.add(u));
         } catch (err) {
           logger.error(`Search error for sender ${sender}: ${err.message}`);
+          searchFailed = true;
         }
+      }
+
+      if (searchFailed) {
+        logger.warn(`⚠️ Poll degraded: search failed for one or more senders. Skipping partial fetch to prevent duplicate processing.`);
+        this._consecutiveSuccesses = 0;
+        return;
       }
 
       const uidList = [...allUIDs].sort((a, b) => a - b);
@@ -127,23 +180,25 @@ class EmailMonitor {
       if (uidList.length === 0) {
         logger.debug(`Poll: 0 emails from any alert sender`);
         this.stats.lastPollFound = 0;
+        this._onPollSuccess();
         return;
       }
+      const newUIDs = uidList.filter(u => u > this._lastProcessedUID);
 
       // First run — set watermark, skip history
       if (this._lastProcessedUID === 0) {
-        const maxUID = Math.max(...uidList);
+        const maxUID = Math.max(...uidList, 0);
         logger.info(`First run: ${uidList.length} existing emails — watermark set to ${maxUID}`);
         this._lastProcessedUID = maxUID;
         if (this._onStateChange) this._onStateChange(maxUID);
+        this._onPollSuccess();
         return;
       }
 
-      const newUIDs = uidList.filter(uid => uid > this._lastProcessedUID);
       this.stats.lastPollFound = newUIDs.length;
 
       if (newUIDs.length === 0) {
-        logger.debug(`Poll: all ${uidList.length} emails already processed (watermark: ${this._lastProcessedUID})`);
+        this._onPollSuccess();
         return;
       }
 
@@ -152,18 +207,38 @@ class EmailMonitor {
       for await (const msg of this.client.fetch(
         newUIDs.join(','), { source: true, uid: true }, { uid: true }
       )) {
-        await this._processMessage(msg);
-        if (msg.uid > this._lastProcessedUID) {
-          this._lastProcessedUID = msg.uid;
-          if (this._onStateChange) this._onStateChange(msg.uid);
+        const status = await this._processMessage(msg);
+        if (status === 'SUCCESS' || status === 'SKIPPED') {
+          if (msg.uid > this._lastProcessedUID) {
+            this._lastProcessedUID = msg.uid;
+            if (this._onStateChange) this._onStateChange(msg.uid);
+          }
+        } else {
+          logger.warn(`⚠️ Poll: Message processing failed for UID ${msg.uid} — watermark paused at ${this._lastProcessedUID}. Retrying on next poll.`);
+          break;
         }
       }
 
+      this._onPollSuccess();
+
     } catch (err) {
       logger.error(`Poll error: ${err.message}`);
-      if (!this.client?.usable) this._scheduleReconnect();
+      this._consecutiveSuccesses = 0;
+      if (!this.client?.usable) {
+        this.state = STATES.DEGRADED;
+        this._scheduleReconnect();
+      }
     } finally {
       this._polling = false;
+    }
+  }
+
+  _onPollSuccess() {
+    if (this.state === STATES.CONNECTED) {
+      this._consecutiveSuccesses++;
+      if (this._consecutiveSuccesses >= 2) {
+        this._reconnectDelay = RECONNECT_INIT_MS;
+      }
     }
   }
 
@@ -178,7 +253,7 @@ class EmailMonitor {
       const isKnown = senders.some(s => fromAddr.toLowerCase().includes(s.toLowerCase()));
       if (!isKnown) {
         logger.debug(`Ignored email from unknown sender: ${fromAddr}`);
-        return;
+        return 'SKIPPED';
       }
 
       this.stats.emailsReceived++;
@@ -193,37 +268,72 @@ class EmailMonitor {
       if (!result) {
         this.stats.alertsSkipped++;
         logger.info(`   ↳ Filtered`);
-        return;
+        return 'SKIPPED';
       }
 
       this.stats.alertsSent++;
       logger.success(`   ↳ Parsed OK — forwarding to WhatsApp`);
       await this.onAlert(result, parsed);
+      return 'SUCCESS';
 
     } catch (err) {
       logger.error(`processMessage [UID ${msg.uid}] error: ${err.message}`);
+      return 'FAILED';
     }
   }
 
   _scheduleReconnect() {
-    if (!this.running) return;
-    clearInterval(this._pollTimer);
-    const delay = this._reconnectDelay;
+    if (!this.running || this.state === STATES.STOPPED) return null;
+
+    if (this._reconnectPromise) {
+      return this._reconnectPromise;
+    }
+
+    if (this._pollTimer) {
+      clearInterval(this._pollTimer);
+      this._pollTimer = null;
+    }
+
+    if (this._reconnectTimer) {
+      return this._reconnectPromise;
+    }
+
+    const jitter = Math.floor(Math.random() * 1000);
+    const delay = Math.min(this._reconnectDelay, RECONNECT_MAX_MS) + jitter;
     this._reconnectDelay = Math.min(this._reconnectDelay * RECONNECT_MULTIPLIER, RECONNECT_MAX_MS);
     this.stats.reconnects++;
-    logger.warn(`Reconnecting in ${delay/1000}s (attempt #${this.stats.reconnects})...`);
-    setTimeout(async () => {
-      if (!this.running) return;
-      try {
-        if (this.client) { try { await this.client.logout(); } catch {} this.client = null; }
-        await this._connect();
-        this._reconnectDelay = RECONNECT_INIT_MS;
-        logger.success(`Reconnected`);
-      } catch (err) {
-        logger.error(`Reconnect failed: ${err.message}`);
-        this._scheduleReconnect();
-      }
-    }, delay);
+    this.state = STATES.RECONNECTING;
+    this._consecutiveSuccesses = 0;
+
+    logger.warn(`Reconnecting in ${(delay/1000).toFixed(1)}s (attempt #${this.stats.reconnects})...`);
+
+    this._reconnectPromise = new Promise((resolve) => {
+      this._reconnectTimer = setTimeout(async () => {
+        this._reconnectTimer = null;
+        if (!this.running || this.state === STATES.STOPPED) {
+          this._reconnectPromise = null;
+          resolve(false);
+          return;
+        }
+
+        try {
+          if (this.client) {
+            try { await this.client.logout(); } catch {}
+            this.client = null;
+          }
+          const success = await this._connect();
+          this._reconnectPromise = null;
+          resolve(success);
+        } catch (err) {
+          logger.error(`Reconnect failed: ${err.message}`);
+          this._reconnectPromise = null;
+          this._scheduleReconnect();
+          resolve(false);
+        }
+      }, delay);
+    });
+
+    return this._reconnectPromise;
   }
 
   _validateConfig() {

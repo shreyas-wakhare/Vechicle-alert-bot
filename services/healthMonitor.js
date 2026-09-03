@@ -29,7 +29,16 @@ class HealthMonitor {
     const s      = this.email.stats;
     const uptime = this._dur(Date.now() - this._start.getTime());
 
-    const imapStatus = this.email.isConnected() ? '🟢 Connected' : '🔴 Disconnected';
+    let imapStatus = '🔴 Disconnected';
+    if (typeof this.email.getState === 'function') {
+      const st = this.email.getState();
+      if (st === 'CONNECTED') imapStatus = '🟢 Connected';
+      else if (st === 'RECONNECTING' || st === 'DEGRADED') imapStatus = '🟡 Degraded/Reconnecting';
+      else if (st === 'CONNECTING') imapStatus = '🟡 Connecting';
+      else if (st === 'STOPPED') imapStatus = '⚪ Stopped';
+    } else {
+      imapStatus = this.email.isConnected() ? '🟢 Connected' : '🔴 Disconnected';
+    }
     const waStatus   = this.whatsapp.isReady()  ? '🟢 Ready'     : '🔴 Not ready';
 
     const lastEmail = s.lastEmailAt ? this._ago(s.lastEmailAt) : 'none yet';

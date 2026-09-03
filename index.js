@@ -176,16 +176,30 @@ async function main() {
       return;
     }
 
-    // Invoke AI Executive Synthesis in production pipeline
-    if (context) {
+    const { text, criticalLevel } = formatter.format(alertDef, fields);
+
+    // Critical operational alerts (sos, accident, engine_failure or criticalLevel >= 3) MUST NOT wait for AI
+    const isCriticalType = alertDef.type === 'sos' || alertDef.type === 'accident' || alertDef.type === 'engine_failure' || criticalLevel >= 3;
+
+    if (context && !isCriticalType) {
       try {
-        context.aiSynthesis = await aiSynthesisEngine.synthesize(context, mail);
+        const aiPromise = aiSynthesisEngine.synthesize(context, mail);
+        const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(null), 1000));
+        
+        // Race AI synthesis against a 1000ms budget for standard alerts
+        const synthesisResult = await Promise.race([aiPromise, timeoutPromise]);
+        if (synthesisResult) {
+          context.aiSynthesis = synthesisResult;
+        } else {
+          logger.warn(`AI synthesis timed out (>1000ms); falling back to deterministic alert`);
+          // Ensure late AI promise resolution/rejection is safely caught
+          aiPromise.catch(aiErr => logger.warn(`Late AI synthesis exception: ${aiErr?.message || aiErr}`));
+        }
       } catch (aiErr) {
         logger.warn(`AI executive synthesis exception: ${aiErr?.message || aiErr}`);
       }
     }
 
-    const { text, criticalLevel } = formatter.format(alertDef, fields);
     let messageToSend = text;
 
     if (context?.aiSynthesis) {

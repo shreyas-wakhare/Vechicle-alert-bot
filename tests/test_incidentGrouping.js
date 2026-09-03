@@ -385,6 +385,50 @@ runTest('Y — Existing alertCorrelation fields (correlationId, status, events) 
   assert.strictEqual(corr.incident.type, 'AGGRESSIVE_DRIVING');
 });
 
+// ── Test Suite Z: Semantic Hardening (Y-40629 Distraction & E-30849 Vibration) ──
+runTest('Z1 — Distraction + Distraction classifies as DRIVER_DISTRACTION_UNSAFE_DRIVING (Y-40629 fix)', () => {
+  const builder = new EventContextBuilder();
+  builder.build({ alertDef: { type: 'distraction' }, fields: { plate: 'Y-40629', alertTime: '2026-09-02T10:00:00.000Z', emailUid: '201' } });
+  const ctx2 = builder.build({ alertDef: { type: 'distraction' }, fields: { plate: 'Y-40629', alertTime: '2026-09-02T10:04:00.000Z', emailUid: '202' } });
+
+  const inc = ctx2.alertCorrelation.incident;
+  assert.strictEqual(inc.isIncident, true, 'isIncident must be true');
+  assert.strictEqual(inc.type, 'DRIVER_DISTRACTION_UNSAFE_DRIVING', 'incident type must be DRIVER_DISTRACTION_UNSAFE_DRIVING');
+  assert.strictEqual(inc.ruleId, 'DRIVER_DISTRACTION_V1', 'ruleId must be DRIVER_DISTRACTION_V1');
+});
+
+runTest('Z2 — Distraction x3 in correlation window classifies as DRIVER_DISTRACTION_UNSAFE_DRIVING', () => {
+  const builder = new EventContextBuilder();
+  builder.build({ alertDef: { type: 'distraction' }, fields: { plate: 'Y-40629', alertTime: '2026-09-02T10:00:00.000Z', emailUid: '201' } });
+  builder.build({ alertDef: { type: 'distraction' }, fields: { plate: 'Y-40629', alertTime: '2026-09-02T10:04:00.000Z', emailUid: '202' } });
+  const ctx3 = builder.build({ alertDef: { type: 'distraction' }, fields: { plate: 'Y-40629', alertTime: '2026-09-02T10:08:00.000Z', emailUid: '203' } });
+
+  const inc = ctx3.alertCorrelation.incident;
+  assert.strictEqual(inc.isIncident, true, 'isIncident must be true');
+  assert.strictEqual(inc.type, 'DRIVER_DISTRACTION_UNSAFE_DRIVING');
+  assert.strictEqual(inc.eventCount, 3, 'eventCount must be 3');
+});
+
+runTest('Z3 — Vibration + Vibration (pure vibration sequence) remains CORRELATED_ACTIVITY (E-30849 isolation)', () => {
+  const builder = new EventContextBuilder();
+  builder.build({ alertDef: { type: 'vibration' }, fields: { plate: 'E-30849', alertTime: '2026-09-02T10:00:00.000Z', emailUid: '301' } });
+  const ctx2 = builder.build({ alertDef: { type: 'vibration' }, fields: { plate: 'E-30849', alertTime: '2026-09-02T10:05:00.000Z', emailUid: '302' } });
+
+  const inc = ctx2.alertCorrelation.incident;
+  assert.strictEqual(inc.isIncident, false, 'Pure repeated vibration must be isIncident: false');
+  assert.strictEqual(inc.type, 'CORRELATED_ACTIVITY', 'Pure vibration must classify as CORRELATED_ACTIVITY');
+});
+
+runTest('Z4 — Distraction + Vibration correctly classifies as DRIVER_DISTRACTION_UNSAFE_DRIVING', () => {
+  const builder = new EventContextBuilder();
+  builder.build({ alertDef: { type: 'distraction' }, fields: { plate: 'E-30849', alertTime: '2026-09-02T10:00:00.000Z', emailUid: '301' } });
+  const ctx2 = builder.build({ alertDef: { type: 'vibration' }, fields: { plate: 'E-30849', alertTime: '2026-09-02T10:05:00.000Z', emailUid: '302' } });
+
+  const inc = ctx2.alertCorrelation.incident;
+  assert.strictEqual(inc.isIncident, true, 'isIncident must be true');
+  assert.strictEqual(inc.type, 'DRIVER_DISTRACTION_UNSAFE_DRIVING');
+});
+
 console.log('\n═══════════════════════════════════════════════════════════════');
 console.log(`📊 TEST RESULTS: ${passedTests} Passed | ${failedTests} Failed`);
 console.log('═══════════════════════════════════════════════════════════════\n');

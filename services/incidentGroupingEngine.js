@@ -52,9 +52,11 @@ class IncidentGroupingEngine {
 
   _classify(correlationResult) {
       const events = Array.isArray(correlationResult.events) ? correlationResult.events : [];
-      const eventTypes = Array.isArray(correlationResult.eventTypes) ? correlationResult.eventTypes : [];
+      const eventTypes = Array.isArray(correlationResult.eventTypes) && correlationResult.eventTypes.length > 0
+        ? correlationResult.eventTypes
+        : [...new Set(events.map(e => e.alertType))];
       const typeSet = new Set(eventTypes);
-      const isCorrelated = Boolean(correlationResult.isCorrelated && correlationResult.eventCount > 1);
+      const isCorrelated = Boolean(correlationResult.isCorrelated || correlationResult.eventCount > 1 || events.length > 1);
 
       const startTime = correlationResult.startTime || new Date().toISOString();
       const latestTime = correlationResult.latestTime || new Date().toISOString();
@@ -155,8 +157,10 @@ class IncidentGroupingEngine {
         });
       }
 
+      const allEventTypes = events.map(e => e.alertType);
+
       // ── Priority 4: Aggressive Driving ────────────────────────────────────
-      const aggressiveMatches = eventTypes.filter(t => AGGRESSIVE_TYPES.has(t));
+      const aggressiveMatches = allEventTypes.filter(t => AGGRESSIVE_TYPES.has(t));
       const uniqueAggressive = [...new Set(aggressiveMatches)];
 
       if (aggressiveMatches.length >= 2) {
@@ -175,10 +179,11 @@ class IncidentGroupingEngine {
       }
 
       // ── Priority 5: Driver Distraction / Unsafe Driving ───────────────────
-      const distractionMatches = eventTypes.filter(t => DISTRACTION_TYPES.has(t));
+      const distractionMatches = allEventTypes.filter(t => DISTRACTION_TYPES.has(t));
       const uniqueDistraction = [...new Set(distractionMatches)];
+      const hasPrimaryDistraction = uniqueDistraction.some(t => t !== 'vibration');
 
-      if (distractionMatches.length >= 2) {
+      if (distractionMatches.length >= 2 && hasPrimaryDistraction) {
         return this._createIncident({
           type: 'DRIVER_DISTRACTION_UNSAFE_DRIVING',
           label: 'Driver Distraction / Unsafe Driving',

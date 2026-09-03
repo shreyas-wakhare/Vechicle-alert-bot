@@ -50,7 +50,8 @@ class MessageFormatter {
     const lines       = [];
     const isTrack9999 = fields.source === 'track9999';
 
-    lines.push(`${alertDef.emoji} *${alertDef.label.toUpperCase()} ALERT*`);
+    const cleanLabel = (alertDef.label || '').toUpperCase().replace(/\s+ALERT$/i, '').trim();
+    lines.push(`${alertDef.emoji} *${cleanLabel} ALERT*`);
     if (isTrack9999 && fields.eventName && fields.eventName.toLowerCase() !== alertDef.label.toLowerCase()) {
       lines.push(`_${fields.eventName}_`);
     }
@@ -158,12 +159,13 @@ class MessageFormatter {
     if (!synth) return null;
 
     const lines = [];
-    const event = context.alertLabel || context.alertType || 'Alert';
+    const rawEvent = context.alertLabel || context.alertType || 'Alert';
+    const cleanEvent = rawEvent.toUpperCase().replace(/\s+ALERT$/i, '').trim();
     const riskLevel = context.risk?.vehicleRisk?.level || context.riskLevel || 'MEDIUM';
     const plate = context.vehicle?.plate || 'N/A';
     const driver = context.vehicle?.driver || null;
 
-    lines.push(`🚨 *${riskLevel} RISK — ${event.toUpperCase()}*`);
+    lines.push(`🚨 *${riskLevel} RISK — ${cleanEvent} ALERT*`);
     lines.push(`🚗 *Vehicle:* ${plate}${driver ? ` | 👤 *Driver:* ${driver}` : ''}`);
     lines.push('');
     lines.push(`*Executive Briefing:*`);

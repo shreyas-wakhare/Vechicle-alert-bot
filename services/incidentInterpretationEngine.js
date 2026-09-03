@@ -144,7 +144,15 @@ class IncidentInterpretationEngine {
       return 'IMMEDIATE_ATTENTION';
     }
 
-    if (isEscalated || type === 'AGGRESSIVE_DRIVING' || type === 'DRIVER_DISTRACTION_UNSAFE_DRIVING' || type === 'DEVICE_TAMPERING' || type === 'ENGINE_FAILURE' || type === 'CONNECTIVITY_DISRUPTION') {
+    const events = Array.isArray(correlationResult?.events) ? correlationResult.events : [];
+    const count = correlationResult?.eventCount || events.length || (intel?.sequence?.length) || 1;
+
+    // Scope 3+ count upgrade specifically to pure repeated vibration activity
+    const isRepeatedVibration = type === 'CORRELATED_ACTIVITY' &&
+      events.length >= 3 &&
+      events.every(e => e.alertType === 'vibration');
+
+    if (isEscalated || isRepeatedVibration || type === 'AGGRESSIVE_DRIVING' || type === 'DRIVER_DISTRACTION_UNSAFE_DRIVING' || type === 'DEVICE_TAMPERING' || type === 'ENGINE_FAILURE' || type === 'CONNECTIVITY_DISRUPTION') {
       return 'HIGH_ATTENTION';
     }
 
