@@ -45,4 +45,7 @@ module.exports = {
   // Numbers to DM for 3+ red severity (comma-separated in .env)
   criticalContacts: (process.env.CRITICAL_CONTACTS || '971565227135,971564002750')
                       .split(',').map(s => s.trim()).filter(Boolean),
+
+  // Fleet alert batching interval in minutes (default: 30)
+  alertReportIntervalMinutes: parseInt(process.env.ALERT_REPORT_INTERVAL_MINUTES || '30', 10),
 };

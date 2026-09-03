@@ -315,7 +315,25 @@ class HistoryStore {
     return this._records.filter(r => new Date(r.receivedAt).getTime() > cutoff);
   }
 
+  getRecordsInRange(startTime, endTime) {
+    const startMs = new Date(startTime).getTime();
+    const endMs   = new Date(endTime).getTime();
+    return this._records.filter(r => {
+      const t = new Date(r.receivedAt || r.loggedAt).getTime();
+      return t >= startMs && t < endMs;
+    });
+  }
+
   getRecentTrips(hours) { return this._validRecentTrips(hours); }
+
+  getValidTripsInRange(startTime, endTime) {
+    const startMs = new Date(startTime).getTime();
+    const endMs   = new Date(endTime).getTime();
+    return this._validTrips().filter(t => {
+      const tEnd = new Date(t.endTime).getTime();
+      return tEnd >= startMs && tEnd < endMs;
+    });
+  }
 
   getIdleStats(hours) {
     const recent = this.getRecentRecords(hours).filter(r => r.alertType === 'idle');

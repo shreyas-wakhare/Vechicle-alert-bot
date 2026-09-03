@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-03T06:09:18.201Z",
+  "updatedAt": "2026-09-03T08:57:46.451Z",
   "vehicles": {
     "PLATE:D31498": {
       "score": 18,
@@ -339,57 +339,78 @@
       ]
     },
     "IMEI:865478070212966": {
-      "score": 11.166666666666657,
-      "lastUpdated": "2026-09-03T05:26:50.000Z",
+      "score": 100,
+      "lastUpdated": "2026-09-03T07:09:10.000Z",
       "contributors": [
         {
-          "eventId": "UID-120945",
-          "alertType": "vibration",
-          "alertLabel": "Vibration Alert",
-          "netImpact": 8,
-          "timestamp": "2026-09-03 09:26:50"
-        },
-        {
-          "eventId": "UID-120366",
+          "eventId": "UID-121157",
           "alertType": "distraction",
           "alertLabel": "Distraction / Phone Use",
           "netImpact": 24,
-          "timestamp": "2026-09-02 17:18:30"
+          "timestamp": "2026-09-03 11:09:10"
         },
         {
-          "eventId": "UID-120353",
+          "eventId": "UID-121154",
           "alertType": "distraction",
           "alertLabel": "Distraction / Phone Use",
           "netImpact": 24,
-          "timestamp": "2026-09-02 17:07:48"
+          "timestamp": "2026-09-03 11:08:02"
         },
         {
-          "eventId": "UID-120351",
+          "eventId": "UID-121152",
           "alertType": "distraction",
           "alertLabel": "Distraction / Phone Use",
           "netImpact": 24,
-          "timestamp": "2026-09-02 17:05:15"
+          "timestamp": "2026-09-03 11:07:01"
         },
         {
-          "eventId": "UID-120346",
+          "eventId": "UID-121149",
           "alertType": "distraction",
           "alertLabel": "Distraction / Phone Use",
           "netImpact": 24,
-          "timestamp": "2026-09-02 16:55:23"
+          "timestamp": "2026-09-03 11:06:00"
         },
         {
-          "eventId": "UID-120344",
+          "eventId": "UID-121147",
           "alertType": "distraction",
           "alertLabel": "Distraction / Phone Use",
           "netImpact": 24,
-          "timestamp": "2026-09-02 16:53:40"
+          "timestamp": "2026-09-03 11:04:59"
         },
         {
-          "eventId": "UID-120341",
+          "eventId": "UID-121143",
           "alertType": "distraction",
           "alertLabel": "Distraction / Phone Use",
-          "netImpact": 18,
-          "timestamp": "2026-09-02 16:51:28"
+          "netImpact": 24,
+          "timestamp": "2026-09-03 11:03:58"
+        },
+        {
+          "eventId": "UID-121141",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "timestamp": "2026-09-03 11:02:57"
+        },
+        {
+          "eventId": "UID-121138",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "timestamp": "2026-09-03 11:01:51"
+        },
+        {
+          "eventId": "UID-121135",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "timestamp": "2026-09-03 11:00:50"
+        },
+        {
+          "eventId": "UID-121132",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "timestamp": "2026-09-03 10:59:50"
         }
       ],
       "processedEventIds": [
@@ -399,85 +420,256 @@
         "UID-120351",
         "UID-120353",
         "UID-120366",
-        "UID-120945"
+        "UID-120945",
+        "UID-121032",
+        "UID-121035",
+        "UID-121041",
+        "UID-121056",
+        "UID-121061",
+        "UID-121066",
+        "UID-121070",
+        "UID-121072",
+        "UID-121074",
+        "UID-121077",
+        "UID-121079",
+        "UID-121080",
+        "UID-121084",
+        "UID-121087",
+        "UID-121088",
+        "UID-121090",
+        "UID-121092",
+        "UID-121093",
+        "UID-121094",
+        "UID-121095",
+        "UID-121098",
+        "UID-121125",
+        "UID-121126",
+        "UID-121129",
+        "UID-121132",
+        "UID-121135",
+        "UID-121138",
+        "UID-121141",
+        "UID-121143",
+        "UID-121147",
+        "UID-121149",
+        "UID-121152",
+        "UID-121154",
+        "UID-121157"
       ],
       "snapshots": [
         {
-          "eventId": "UID-120945",
-          "alertType": "vibration",
-          "alertLabel": "Vibration Alert",
-          "netImpact": 8,
-          "score": 11,
-          "previousScore": 3,
-          "level": "LOW",
-          "timestamp": "2026-09-03 09:26:50"
-        },
-        {
-          "eventId": "UID-120366",
+          "eventId": "UID-121157",
           "alertType": "distraction",
           "alertLabel": "Distraction / Phone Use",
           "netImpact": 24,
           "score": 100,
-          "previousScore": 99,
+          "previousScore": 100,
           "level": "CRITICAL",
-          "timestamp": "2026-09-02 17:18:30"
+          "timestamp": "2026-09-03 11:09:10"
         },
         {
-          "eventId": "UID-120353",
+          "eventId": "UID-121154",
           "alertType": "distraction",
           "alertLabel": "Distraction / Phone Use",
           "netImpact": 24,
           "score": 100,
-          "previousScore": 88,
+          "previousScore": 100,
           "level": "CRITICAL",
-          "timestamp": "2026-09-02 17:07:48"
+          "timestamp": "2026-09-03 11:08:02"
         },
         {
-          "eventId": "UID-120351",
+          "eventId": "UID-121152",
           "alertType": "distraction",
           "alertLabel": "Distraction / Phone Use",
           "netImpact": 24,
-          "score": 89,
-          "previousScore": 65,
-          "level": "HIGH",
-          "timestamp": "2026-09-02 17:05:15"
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 11:07:01"
         },
         {
-          "eventId": "UID-120346",
+          "eventId": "UID-121149",
           "alertType": "distraction",
           "alertLabel": "Distraction / Phone Use",
           "netImpact": 24,
-          "score": 66,
-          "previousScore": 42,
-          "level": "ELEVATED",
-          "timestamp": "2026-09-02 16:55:23"
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 11:06:00"
         },
         {
-          "eventId": "UID-120344",
+          "eventId": "UID-121147",
           "alertType": "distraction",
           "alertLabel": "Distraction / Phone Use",
           "netImpact": 24,
-          "score": 42,
-          "previousScore": 18,
-          "level": "MEDIUM",
-          "timestamp": "2026-09-02 16:53:40"
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 11:04:59"
         },
         {
-          "eventId": "UID-120341",
+          "eventId": "UID-121143",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 11:03:58"
+        },
+        {
+          "eventId": "UID-121141",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 11:02:57"
+        },
+        {
+          "eventId": "UID-121138",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 11:01:51"
+        },
+        {
+          "eventId": "UID-121135",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 11:00:50"
+        },
+        {
+          "eventId": "UID-121132",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 10:59:50"
+        },
+        {
+          "eventId": "UID-121129",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 10:58:50"
+        },
+        {
+          "eventId": "UID-121126",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 10:57:50"
+        },
+        {
+          "eventId": "UID-121125",
           "alertType": "distraction",
           "alertLabel": "Distraction / Phone Use",
           "netImpact": 18,
-          "score": 18,
-          "previousScore": 0,
-          "level": "LOW",
-          "timestamp": "2026-09-02 16:51:28"
+          "score": 100,
+          "previousScore": 98,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 10:56:16"
+        },
+        {
+          "eventId": "UID-121098",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 10:39:59"
+        },
+        {
+          "eventId": "UID-121095",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 10:38:33"
+        },
+        {
+          "eventId": "UID-121094",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 10:36:58"
+        },
+        {
+          "eventId": "UID-121093",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 10:35:58"
+        },
+        {
+          "eventId": "UID-121092",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 10:34:54"
+        },
+        {
+          "eventId": "UID-121090",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 10:33:51"
+        },
+        {
+          "eventId": "UID-121088",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 10:32:51"
         }
       ]
     },
     "IMEI:865478070258308": {
       "score": 8,
-      "lastUpdated": "2026-09-03T05:56:11.000Z",
+      "lastUpdated": "2026-09-03T07:43:33.000Z",
       "contributors": [
+        {
+          "eventId": "UID-121201",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 11:43:33"
+        },
         {
           "eventId": "UID-121010",
           "alertType": "vibration",
@@ -495,9 +687,20 @@
       ],
       "processedEventIds": [
         "UID-120352",
-        "UID-121010"
+        "UID-121010",
+        "UID-121201"
       ],
       "snapshots": [
+        {
+          "eventId": "UID-121201",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 8,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-03 11:43:33"
+        },
         {
           "eventId": "UID-121010",
           "alertType": "vibration",
@@ -549,9 +752,23 @@
       ]
     },
     "IMEI:865478070201654": {
-      "score": 39.765,
-      "lastUpdated": "2026-09-02T13:27:55.000Z",
+      "score": 18.865000000000002,
+      "lastUpdated": "2026-09-03T07:02:18.000Z",
       "contributors": [
+        {
+          "eventId": "UID-121140",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-03 11:02:18"
+        },
+        {
+          "eventId": "UID-121136",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 11:00:57"
+        },
         {
           "eventId": "UID-120372",
           "alertType": "vibration",
@@ -585,9 +802,31 @@
         "UID-120361",
         "UID-120367",
         "UID-120368",
-        "UID-120372"
+        "UID-120372",
+        "UID-121136",
+        "UID-121140"
       ],
       "snapshots": [
+        {
+          "eventId": "UID-121140",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 19,
+          "previousScore": 8,
+          "level": "LOW",
+          "timestamp": "2026-09-03 11:02:18"
+        },
+        {
+          "eventId": "UID-121136",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 8,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-03 11:00:57"
+        },
         {
           "eventId": "UID-120372",
           "alertType": "vibration",
@@ -659,29 +898,239 @@
       ]
     },
     "IMEI:865478070207750": {
-      "score": 18.828333333333333,
-      "lastUpdated": "2026-09-02T13:37:04.000Z",
+      "score": 100,
+      "lastUpdated": "2026-09-03T08:06:03.000Z",
       "contributors": [
         {
-          "eventId": "UID-120381",
-          "alertType": "vibration",
-          "alertLabel": "Vibration Alert",
-          "netImpact": 11,
-          "timestamp": "2026-09-02 17:37:04"
-        },
-        {
-          "eventId": "UID-120378",
+          "eventId": "UID-121228",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 8,
-          "timestamp": "2026-09-02 17:35:21"
+          "timestamp": "2026-09-03 12:06:03"
+        },
+        {
+          "eventId": "UID-121211",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-03 11:52:25"
+        },
+        {
+          "eventId": "UID-121207",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-03 11:48:56"
+        },
+        {
+          "eventId": "UID-121199",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-03 11:42:35"
+        },
+        {
+          "eventId": "UID-121198",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-03 11:41:32"
+        },
+        {
+          "eventId": "UID-121194",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-03 11:40:19"
+        },
+        {
+          "eventId": "UID-121192",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 11:39:11"
+        },
+        {
+          "eventId": "UID-121175",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-03 11:20:12"
+        },
+        {
+          "eventId": "UID-121150",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 11:06:15"
+        },
+        {
+          "eventId": "UID-121109",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-03 10:49:27"
         }
       ],
       "processedEventIds": [
         "UID-120378",
-        "UID-120381"
+        "UID-120381",
+        "UID-121086",
+        "UID-121099",
+        "UID-121103",
+        "UID-121105",
+        "UID-121109",
+        "UID-121150",
+        "UID-121175",
+        "UID-121192",
+        "UID-121194",
+        "UID-121198",
+        "UID-121199",
+        "UID-121207",
+        "UID-121211",
+        "UID-121228"
       ],
       "snapshots": [
+        {
+          "eventId": "UID-121228",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 100,
+          "previousScore": 99,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 12:06:03"
+        },
+        {
+          "eventId": "UID-121211",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 11:52:25"
+        },
+        {
+          "eventId": "UID-121207",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 100,
+          "previousScore": 99,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 11:48:56"
+        },
+        {
+          "eventId": "UID-121199",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 100,
+          "previousScore": 94,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 11:42:35"
+        },
+        {
+          "eventId": "UID-121198",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 94,
+          "previousScore": 83,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 11:41:32"
+        },
+        {
+          "eventId": "UID-121194",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 83,
+          "previousScore": 72,
+          "level": "HIGH",
+          "timestamp": "2026-09-03 11:40:19"
+        },
+        {
+          "eventId": "UID-121192",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 72,
+          "previousScore": 64,
+          "level": "HIGH",
+          "timestamp": "2026-09-03 11:39:11"
+        },
+        {
+          "eventId": "UID-121175",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 66,
+          "previousScore": 55,
+          "level": "ELEVATED",
+          "timestamp": "2026-09-03 11:20:12"
+        },
+        {
+          "eventId": "UID-121150",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 57,
+          "previousScore": 49,
+          "level": "ELEVATED",
+          "timestamp": "2026-09-03 11:06:15"
+        },
+        {
+          "eventId": "UID-121109",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 50,
+          "previousScore": 39,
+          "level": "ELEVATED",
+          "timestamp": "2026-09-03 10:49:27"
+        },
+        {
+          "eventId": "UID-121105",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 40,
+          "previousScore": 29,
+          "level": "MEDIUM",
+          "timestamp": "2026-09-03 10:45:26"
+        },
+        {
+          "eventId": "UID-121103",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 29,
+          "previousScore": 18,
+          "level": "MEDIUM",
+          "timestamp": "2026-09-03 10:43:40"
+        },
+        {
+          "eventId": "UID-121099",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 18,
+          "previousScore": 7,
+          "level": "LOW",
+          "timestamp": "2026-09-03 10:41:44"
+        },
+        {
+          "eventId": "UID-121086",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 8,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-03 10:31:44"
+        },
         {
           "eventId": "UID-120381",
           "alertType": "vibration",
@@ -773,8 +1222,57 @@
     },
     "IMEI:865478070265600": {
       "score": 100,
-      "lastUpdated": "2026-09-03T05:41:03.000Z",
+      "lastUpdated": "2026-09-03T08:01:54.000Z",
       "contributors": [
+        {
+          "eventId": "UID-121221",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "timestamp": "2026-09-03 12:01:54"
+        },
+        {
+          "eventId": "UID-121217",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "timestamp": "2026-09-03 11:56:46"
+        },
+        {
+          "eventId": "UID-121208",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "timestamp": "2026-09-03 11:47:18"
+        },
+        {
+          "eventId": "UID-121176",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "timestamp": "2026-09-03 11:20:30"
+        },
+        {
+          "eventId": "UID-121078",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-03 10:27:58"
+        },
+        {
+          "eventId": "UID-121071",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-03 10:24:12"
+        },
+        {
+          "eventId": "UID-121042",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "timestamp": "2026-09-03 10:13:14"
+        },
         {
           "eventId": "UID-120986",
           "alertType": "distraction",
@@ -795,20 +1293,6 @@
           "alertLabel": "Distraction / Phone Use",
           "netImpact": 24,
           "timestamp": "2026-09-03 09:33:59"
-        },
-        {
-          "eventId": "UID-120952",
-          "alertType": "distraction",
-          "alertLabel": "Distraction / Phone Use",
-          "netImpact": 24,
-          "timestamp": "2026-09-03 09:29:09"
-        },
-        {
-          "eventId": "UID-120948",
-          "alertType": "distraction",
-          "alertLabel": "Distraction / Phone Use",
-          "netImpact": 18,
-          "timestamp": "2026-09-03 09:27:26"
         }
       ],
       "processedEventIds": [
@@ -816,9 +1300,86 @@
         "UID-120952",
         "UID-120964",
         "UID-120967",
-        "UID-120986"
+        "UID-120986",
+        "UID-121042",
+        "UID-121071",
+        "UID-121078",
+        "UID-121176",
+        "UID-121208",
+        "UID-121217",
+        "UID-121221"
       ],
       "snapshots": [
+        {
+          "eventId": "UID-121221",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "score": 100,
+          "previousScore": 99,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 12:01:54"
+        },
+        {
+          "eventId": "UID-121217",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 100,
+          "previousScore": 99,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 11:56:46"
+        },
+        {
+          "eventId": "UID-121208",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "score": 100,
+          "previousScore": 97,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 11:47:18"
+        },
+        {
+          "eventId": "UID-121176",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "score": 100,
+          "previousScore": 95,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 11:20:30"
+        },
+        {
+          "eventId": "UID-121078",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 10:27:58"
+        },
+        {
+          "eventId": "UID-121071",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 100,
+          "previousScore": 99,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 10:24:12"
+        },
+        {
+          "eventId": "UID-121042",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "score": 100,
+          "previousScore": 97,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 10:13:14"
+        },
         {
           "eventId": "UID-120986",
           "alertType": "distraction",
@@ -900,9 +1461,23 @@
       ]
     },
     "IMEI:865478070315405": {
-      "score": 40.010000000000005,
-      "lastUpdated": "2026-09-03T05:40:47.000Z",
+      "score": 40.23333333333334,
+      "lastUpdated": "2026-09-03T08:18:33.000Z",
       "contributors": [
+        {
+          "eventId": "UID-121240",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 12:18:33"
+        },
+        {
+          "eventId": "UID-121062",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 10:20:49"
+        },
         {
           "eventId": "UID-120985",
           "alertType": "vibration",
@@ -936,9 +1511,31 @@
         "UID-120956",
         "UID-120962",
         "UID-120978",
-        "UID-120985"
+        "UID-120985",
+        "UID-121062",
+        "UID-121240"
       ],
       "snapshots": [
+        {
+          "eventId": "UID-121240",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 40,
+          "previousScore": 32,
+          "level": "MEDIUM",
+          "timestamp": "2026-09-03 12:18:33"
+        },
+        {
+          "eventId": "UID-121062",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 44,
+          "previousScore": 36,
+          "level": "MEDIUM",
+          "timestamp": "2026-09-03 10:20:49"
+        },
         {
           "eventId": "UID-120985",
           "alertType": "vibration",
@@ -982,9 +1579,44 @@
       ]
     },
     "IMEI:865478070266517": {
-      "score": 73.06833333333334,
-      "lastUpdated": "2026-09-03T05:40:19.000Z",
+      "score": 100,
+      "lastUpdated": "2026-09-03T07:40:54.000Z",
       "contributors": [
+        {
+          "eventId": "UID-121197",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 11:40:54"
+        },
+        {
+          "eventId": "UID-121180",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "timestamp": "2026-09-03 11:22:12"
+        },
+        {
+          "eventId": "UID-121164",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "timestamp": "2026-09-03 11:13:34"
+        },
+        {
+          "eventId": "UID-121106",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 10:46:25"
+        },
+        {
+          "eventId": "UID-121067",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "timestamp": "2026-09-03 10:23:00"
+        },
         {
           "eventId": "UID-120984",
           "alertType": "vibration",
@@ -1019,20 +1651,6 @@
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
           "timestamp": "2026-09-03 09:34:29"
-        },
-        {
-          "eventId": "UID-120959",
-          "alertType": "vibration",
-          "alertLabel": "Vibration Alert",
-          "netImpact": 11,
-          "timestamp": "2026-09-03 09:32:16"
-        },
-        {
-          "eventId": "UID-120957",
-          "alertType": "vibration",
-          "alertLabel": "Vibration Alert",
-          "netImpact": 8,
-          "timestamp": "2026-09-03 09:31:00"
         }
       ],
       "processedEventIds": [
@@ -1042,9 +1660,64 @@
         "UID-120969",
         "UID-120972",
         "UID-120976",
-        "UID-120984"
+        "UID-120984",
+        "UID-121067",
+        "UID-121106",
+        "UID-121164",
+        "UID-121180",
+        "UID-121197"
       ],
       "snapshots": [
+        {
+          "eventId": "UID-121197",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 100,
+          "previousScore": 98,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 11:40:54"
+        },
+        {
+          "eventId": "UID-121180",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 100,
+          "previousScore": 99,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 11:22:12"
+        },
+        {
+          "eventId": "UID-121164",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "score": 100,
+          "previousScore": 90,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 11:13:34"
+        },
+        {
+          "eventId": "UID-121106",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 92,
+          "previousScore": 84,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 10:46:25"
+        },
+        {
+          "eventId": "UID-121067",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "score": 87,
+          "previousScore": 69,
+          "level": "HIGH",
+          "timestamp": "2026-09-03 10:23:00"
+        },
         {
           "eventId": "UID-120984",
           "alertType": "vibration",
@@ -1119,77 +1792,77 @@
     },
     "IMEI:865478070316049": {
       "score": 100,
-      "lastUpdated": "2026-09-03T06:08:42.000Z",
+      "lastUpdated": "2026-09-03T08:56:08.000Z",
       "contributors": [
         {
-          "eventId": "UID-121029",
+          "eventId": "UID-121286",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
-          "timestamp": "2026-09-03 10:08:42"
+          "timestamp": "2026-09-03 12:56:08"
         },
         {
-          "eventId": "UID-121028",
+          "eventId": "UID-121285",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
-          "timestamp": "2026-09-03 10:07:32"
+          "timestamp": "2026-09-03 12:53:47"
         },
         {
-          "eventId": "UID-121027",
-          "alertType": "vibration",
-          "alertLabel": "Vibration Alert",
-          "netImpact": 8,
-          "timestamp": "2026-09-03 10:06:22"
-        },
-        {
-          "eventId": "UID-121026",
+          "eventId": "UID-121282",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
-          "timestamp": "2026-09-03 10:04:47"
+          "timestamp": "2026-09-03 12:52:37"
         },
         {
-          "eventId": "UID-121024",
+          "eventId": "UID-121280",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
-          "timestamp": "2026-09-03 10:03:41"
+          "timestamp": "2026-09-03 12:51:27"
         },
         {
-          "eventId": "UID-121022",
-          "alertType": "vibration",
-          "alertLabel": "Vibration Alert",
-          "netImpact": 8,
-          "timestamp": "2026-09-03 10:01:59"
-        },
-        {
-          "eventId": "UID-121019",
+          "eventId": "UID-121279",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
-          "timestamp": "2026-09-03 10:00:49"
+          "timestamp": "2026-09-03 12:50:17"
         },
         {
-          "eventId": "UID-121016",
+          "eventId": "UID-121278",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
-          "timestamp": "2026-09-03 09:59:39"
+          "timestamp": "2026-09-03 12:49:07"
         },
         {
-          "eventId": "UID-121013",
+          "eventId": "UID-121277",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
-          "timestamp": "2026-09-03 09:58:29"
+          "timestamp": "2026-09-03 12:47:57"
         },
         {
-          "eventId": "UID-121012",
+          "eventId": "UID-121275",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
-          "timestamp": "2026-09-03 09:57:20"
+          "timestamp": "2026-09-03 12:46:47"
+        },
+        {
+          "eventId": "UID-121272",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-03 12:44:26"
+        },
+        {
+          "eventId": "UID-121271",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-03 12:43:16"
         }
       ],
       "processedEventIds": [
@@ -1220,215 +1893,316 @@
         "UID-121026",
         "UID-121027",
         "UID-121028",
-        "UID-121029"
+        "UID-121029",
+        "UID-121031",
+        "UID-121033",
+        "UID-121039",
+        "UID-121043",
+        "UID-121046",
+        "UID-121048",
+        "UID-121054",
+        "UID-121055",
+        "UID-121059",
+        "UID-121063",
+        "UID-121076",
+        "UID-121116",
+        "UID-121128",
+        "UID-121131",
+        "UID-121134",
+        "UID-121139",
+        "UID-121142",
+        "UID-121145",
+        "UID-121148",
+        "UID-121151",
+        "UID-121153",
+        "UID-121156",
+        "UID-121159",
+        "UID-121161",
+        "UID-121162",
+        "UID-121165",
+        "UID-121166",
+        "UID-121167",
+        "UID-121169",
+        "UID-121171",
+        "UID-121174",
+        "UID-121178",
+        "UID-121179",
+        "UID-121186",
+        "UID-121189",
+        "UID-121196",
+        "UID-121200",
+        "UID-121205",
+        "UID-121210",
+        "UID-121218",
+        "UID-121220",
+        "UID-121223",
+        "UID-121229",
+        "UID-121234",
+        "UID-121239",
+        "UID-121243",
+        "UID-121247",
+        "UID-121248",
+        "UID-121250",
+        "UID-121257",
+        "UID-121258",
+        "UID-121260",
+        "UID-121263",
+        "UID-121266",
+        "UID-121268",
+        "UID-121269",
+        "UID-121271",
+        "UID-121272",
+        "UID-121275",
+        "UID-121277",
+        "UID-121278",
+        "UID-121279",
+        "UID-121280",
+        "UID-121282",
+        "UID-121285",
+        "UID-121286"
       ],
       "snapshots": [
         {
-          "eventId": "UID-121029",
+          "eventId": "UID-121286",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
           "score": 100,
           "previousScore": 100,
           "level": "CRITICAL",
-          "timestamp": "2026-09-03 10:08:42"
+          "timestamp": "2026-09-03 12:56:08"
         },
         {
-          "eventId": "UID-121028",
+          "eventId": "UID-121285",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
           "score": 100,
           "previousScore": 100,
           "level": "CRITICAL",
-          "timestamp": "2026-09-03 10:07:32"
+          "timestamp": "2026-09-03 12:53:47"
         },
         {
-          "eventId": "UID-121027",
-          "alertType": "vibration",
-          "alertLabel": "Vibration Alert",
-          "netImpact": 8,
-          "score": 100,
-          "previousScore": 100,
-          "level": "CRITICAL",
-          "timestamp": "2026-09-03 10:06:22"
-        },
-        {
-          "eventId": "UID-121026",
+          "eventId": "UID-121282",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
           "score": 100,
           "previousScore": 100,
           "level": "CRITICAL",
-          "timestamp": "2026-09-03 10:04:47"
+          "timestamp": "2026-09-03 12:52:37"
         },
         {
-          "eventId": "UID-121024",
+          "eventId": "UID-121280",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
           "score": 100,
           "previousScore": 100,
           "level": "CRITICAL",
-          "timestamp": "2026-09-03 10:03:41"
+          "timestamp": "2026-09-03 12:51:27"
         },
         {
-          "eventId": "UID-121022",
-          "alertType": "vibration",
-          "alertLabel": "Vibration Alert",
-          "netImpact": 8,
-          "score": 100,
-          "previousScore": 100,
-          "level": "CRITICAL",
-          "timestamp": "2026-09-03 10:01:59"
-        },
-        {
-          "eventId": "UID-121019",
+          "eventId": "UID-121279",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
           "score": 100,
           "previousScore": 100,
           "level": "CRITICAL",
-          "timestamp": "2026-09-03 10:00:49"
+          "timestamp": "2026-09-03 12:50:17"
         },
         {
-          "eventId": "UID-121016",
+          "eventId": "UID-121278",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
           "score": 100,
           "previousScore": 100,
           "level": "CRITICAL",
-          "timestamp": "2026-09-03 09:59:39"
+          "timestamp": "2026-09-03 12:49:07"
         },
         {
-          "eventId": "UID-121013",
+          "eventId": "UID-121277",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
           "score": 100,
           "previousScore": 100,
           "level": "CRITICAL",
-          "timestamp": "2026-09-03 09:58:29"
+          "timestamp": "2026-09-03 12:47:57"
         },
         {
-          "eventId": "UID-121012",
+          "eventId": "UID-121275",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
           "score": 100,
           "previousScore": 100,
           "level": "CRITICAL",
-          "timestamp": "2026-09-03 09:57:20"
+          "timestamp": "2026-09-03 12:46:47"
         },
         {
-          "eventId": "UID-121009",
+          "eventId": "UID-121272",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
           "score": 100,
           "previousScore": 100,
           "level": "CRITICAL",
-          "timestamp": "2026-09-03 09:56:09"
+          "timestamp": "2026-09-03 12:44:26"
         },
         {
-          "eventId": "UID-121008",
+          "eventId": "UID-121271",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
           "score": 100,
           "previousScore": 100,
           "level": "CRITICAL",
-          "timestamp": "2026-09-03 09:55:00"
+          "timestamp": "2026-09-03 12:43:16"
         },
         {
-          "eventId": "UID-121007",
+          "eventId": "UID-121269",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
           "score": 100,
           "previousScore": 100,
           "level": "CRITICAL",
-          "timestamp": "2026-09-03 09:53:49"
+          "timestamp": "2026-09-03 12:42:06"
         },
         {
-          "eventId": "UID-121005",
+          "eventId": "UID-121268",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
           "score": 100,
           "previousScore": 100,
           "level": "CRITICAL",
-          "timestamp": "2026-09-03 09:52:39"
+          "timestamp": "2026-09-03 12:40:56"
         },
         {
-          "eventId": "UID-121003",
+          "eventId": "UID-121266",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
           "score": 100,
           "previousScore": 100,
           "level": "CRITICAL",
-          "timestamp": "2026-09-03 09:51:28"
+          "timestamp": "2026-09-03 12:39:46"
         },
         {
-          "eventId": "UID-121000",
+          "eventId": "UID-121263",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
           "score": 100,
           "previousScore": 100,
           "level": "CRITICAL",
-          "timestamp": "2026-09-03 09:50:18"
+          "timestamp": "2026-09-03 12:38:36"
         },
         {
-          "eventId": "UID-120999",
+          "eventId": "UID-121260",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
           "score": 100,
           "previousScore": 100,
           "level": "CRITICAL",
-          "timestamp": "2026-09-03 09:49:09"
+          "timestamp": "2026-09-03 12:36:24"
         },
         {
-          "eventId": "UID-120996",
+          "eventId": "UID-121258",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
           "score": 100,
           "previousScore": 100,
           "level": "CRITICAL",
-          "timestamp": "2026-09-03 09:47:58"
+          "timestamp": "2026-09-03 12:32:54"
         },
         {
-          "eventId": "UID-120994",
+          "eventId": "UID-121257",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
           "score": 100,
-          "previousScore": 95,
+          "previousScore": 100,
           "level": "CRITICAL",
-          "timestamp": "2026-09-03 09:46:39"
+          "timestamp": "2026-09-03 12:31:44"
         },
         {
-          "eventId": "UID-120993",
+          "eventId": "UID-121250",
           "alertType": "vibration",
           "alertLabel": "Vibration Alert",
           "netImpact": 11,
-          "score": 95,
-          "previousScore": 84,
+          "score": 100,
+          "previousScore": 100,
           "level": "CRITICAL",
-          "timestamp": "2026-09-03 09:45:29"
+          "timestamp": "2026-09-03 12:27:04"
+        },
+        {
+          "eventId": "UID-121248",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 12:25:54"
+        },
+        {
+          "eventId": "UID-121247",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 100,
+          "previousScore": 100,
+          "level": "CRITICAL",
+          "timestamp": "2026-09-03 12:24:42"
         }
       ]
     },
     "IMEI:865478070320538": {
-      "score": 29.666666666666668,
-      "lastUpdated": "2026-09-03T05:39:31.000Z",
+      "score": 58.9,
+      "lastUpdated": "2026-09-03T08:57:11.000Z",
       "contributors": [
+        {
+          "eventId": "UID-121287",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-03 12:57:11"
+        },
+        {
+          "eventId": "UID-121281",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-03 12:51:35"
+        },
+        {
+          "eventId": "UID-121273",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-03 12:45:55"
+        },
+        {
+          "eventId": "UID-121267",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 12:40:12"
+        },
+        {
+          "eventId": "UID-121124",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 10:56:11"
+        },
         {
           "eventId": "UID-120979",
           "alertType": "vibration",
@@ -1454,9 +2228,64 @@
       "processedEventIds": [
         "UID-120970",
         "UID-120974",
-        "UID-120979"
+        "UID-120979",
+        "UID-121124",
+        "UID-121267",
+        "UID-121273",
+        "UID-121281",
+        "UID-121287"
       ],
       "snapshots": [
+        {
+          "eventId": "UID-121287",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 59,
+          "previousScore": 48,
+          "level": "ELEVATED",
+          "timestamp": "2026-09-03 12:57:11"
+        },
+        {
+          "eventId": "UID-121281",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 48,
+          "previousScore": 37,
+          "level": "ELEVATED",
+          "timestamp": "2026-09-03 12:51:35"
+        },
+        {
+          "eventId": "UID-121273",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 38,
+          "previousScore": 27,
+          "level": "MEDIUM",
+          "timestamp": "2026-09-03 12:45:55"
+        },
+        {
+          "eventId": "UID-121267",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 28,
+          "previousScore": 20,
+          "level": "MEDIUM",
+          "timestamp": "2026-09-03 12:40:12"
+        },
+        {
+          "eventId": "UID-121124",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 30,
+          "previousScore": 22,
+          "level": "MEDIUM",
+          "timestamp": "2026-09-03 10:56:11"
+        },
         {
           "eventId": "UID-120979",
           "alertType": "vibration",
@@ -1490,9 +2319,16 @@
       ]
     },
     "IMEI:865478070320769": {
-      "score": 18.888333333333335,
-      "lastUpdated": "2026-09-03T05:39:54.000Z",
+      "score": 11.115000000000002,
+      "lastUpdated": "2026-09-03T08:17:38.000Z",
       "contributors": [
+        {
+          "eventId": "UID-121237",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 12:17:38"
+        },
         {
           "eventId": "UID-120981",
           "alertType": "vibration",
@@ -1510,9 +2346,20 @@
       ],
       "processedEventIds": [
         "UID-120975",
-        "UID-120981"
+        "UID-120981",
+        "UID-121237"
       ],
       "snapshots": [
+        {
+          "eventId": "UID-121237",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 11,
+          "previousScore": 3,
+          "level": "LOW",
+          "timestamp": "2026-09-03 12:17:38"
+        },
         {
           "eventId": "UID-120981",
           "alertType": "vibration",
@@ -1582,9 +2429,44 @@
       ]
     },
     "IMEI:865478070258258": {
-      "score": 8,
-      "lastUpdated": "2026-09-03T05:58:42.000Z",
+      "score": 45.326666666666675,
+      "lastUpdated": "2026-09-03T07:55:26.000Z",
       "contributors": [
+        {
+          "eventId": "UID-121216",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-03 11:55:26"
+        },
+        {
+          "eventId": "UID-121214",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 11:54:05"
+        },
+        {
+          "eventId": "UID-121120",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-03 10:54:23"
+        },
+        {
+          "eventId": "UID-121118",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-03 10:53:24"
+        },
+        {
+          "eventId": "UID-121107",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 10:48:35"
+        },
         {
           "eventId": "UID-121014",
           "alertType": "vibration",
@@ -1594,9 +2476,64 @@
         }
       ],
       "processedEventIds": [
-        "UID-121014"
+        "UID-121014",
+        "UID-121107",
+        "UID-121118",
+        "UID-121120",
+        "UID-121214",
+        "UID-121216"
       ],
       "snapshots": [
+        {
+          "eventId": "UID-121216",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 45,
+          "previousScore": 34,
+          "level": "ELEVATED",
+          "timestamp": "2026-09-03 11:55:26"
+        },
+        {
+          "eventId": "UID-121214",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 34,
+          "previousScore": 26,
+          "level": "MEDIUM",
+          "timestamp": "2026-09-03 11:54:05"
+        },
+        {
+          "eventId": "UID-121120",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 32,
+          "previousScore": 21,
+          "level": "MEDIUM",
+          "timestamp": "2026-09-03 10:54:23"
+        },
+        {
+          "eventId": "UID-121118",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 22,
+          "previousScore": 11,
+          "level": "MEDIUM",
+          "timestamp": "2026-09-03 10:53:24"
+        },
+        {
+          "eventId": "UID-121107",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 11,
+          "previousScore": 3,
+          "level": "LOW",
+          "timestamp": "2026-09-03 10:48:35"
+        },
         {
           "eventId": "UID-121014",
           "alertType": "vibration",
@@ -1611,8 +2548,15 @@
     },
     "IMEI:865478070101995": {
       "score": 8,
-      "lastUpdated": "2026-09-03T06:04:42.000Z",
+      "lastUpdated": "2026-09-03T08:42:57.000Z",
       "contributors": [
+        {
+          "eventId": "UID-121270",
+          "alertType": "smoking",
+          "alertLabel": "Smoking Detected",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 12:42:57"
+        },
         {
           "eventId": "UID-121025",
           "alertType": "vibration",
@@ -1622,9 +2566,20 @@
         }
       ],
       "processedEventIds": [
-        "UID-121025"
+        "UID-121025",
+        "UID-121270"
       ],
       "snapshots": [
+        {
+          "eventId": "UID-121270",
+          "alertType": "smoking",
+          "alertLabel": "Smoking Detected",
+          "netImpact": 8,
+          "score": 8,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-03 12:42:57"
+        },
         {
           "eventId": "UID-121025",
           "alertType": "vibration",
@@ -1634,6 +2589,382 @@
           "previousScore": 0,
           "level": "LOW",
           "timestamp": "2026-09-03 10:04:42"
+        }
+      ]
+    },
+    "IMEI:865478070258100": {
+      "score": 78.85166666666667,
+      "lastUpdated": "2026-09-03T07:16:27.000Z",
+      "contributors": [
+        {
+          "eventId": "UID-121168",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 11:16:27"
+        },
+        {
+          "eventId": "UID-121075",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-03 10:26:57"
+        },
+        {
+          "eventId": "UID-121064",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "timestamp": "2026-09-03 10:21:36"
+        },
+        {
+          "eventId": "UID-121051",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "timestamp": "2026-09-03 10:17:13"
+        },
+        {
+          "eventId": "UID-121047",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "timestamp": "2026-09-03 10:14:58"
+        }
+      ],
+      "processedEventIds": [
+        "UID-121047",
+        "UID-121051",
+        "UID-121064",
+        "UID-121075",
+        "UID-121168"
+      ],
+      "snapshots": [
+        {
+          "eventId": "UID-121168",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 79,
+          "previousScore": 71,
+          "level": "HIGH",
+          "timestamp": "2026-09-03 11:16:27"
+        },
+        {
+          "eventId": "UID-121075",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 76,
+          "previousScore": 65,
+          "level": "HIGH",
+          "timestamp": "2026-09-03 10:26:57"
+        },
+        {
+          "eventId": "UID-121064",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 65,
+          "previousScore": 41,
+          "level": "ELEVATED",
+          "timestamp": "2026-09-03 10:21:36"
+        },
+        {
+          "eventId": "UID-121051",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 24,
+          "score": 42,
+          "previousScore": 18,
+          "level": "MEDIUM",
+          "timestamp": "2026-09-03 10:17:13"
+        },
+        {
+          "eventId": "UID-121047",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "score": 18,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-03 10:14:58"
+        }
+      ]
+    },
+    "IMEI:865478070258878": {
+      "score": 22.523333333333333,
+      "lastUpdated": "2026-09-03T08:31:05.000Z",
+      "contributors": [
+        {
+          "eventId": "UID-121256",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "timestamp": "2026-09-03 12:31:05"
+        },
+        {
+          "eventId": "UID-121050",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "timestamp": "2026-09-03 10:16:19"
+        }
+      ],
+      "processedEventIds": [
+        "UID-121050",
+        "UID-121256"
+      ],
+      "snapshots": [
+        {
+          "eventId": "UID-121256",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "score": 23,
+          "previousScore": 5,
+          "level": "MEDIUM",
+          "timestamp": "2026-09-03 12:31:05"
+        },
+        {
+          "eventId": "UID-121050",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "score": 18,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-03 10:16:19"
+        }
+      ]
+    },
+    "IMEI:865478070316130": {
+      "score": 8,
+      "lastUpdated": "2026-09-03T07:44:35.000Z",
+      "contributors": [
+        {
+          "eventId": "UID-121204",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 11:44:35"
+        },
+        {
+          "eventId": "UID-121060",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 10:20:27"
+        }
+      ],
+      "processedEventIds": [
+        "UID-121060",
+        "UID-121204"
+      ],
+      "snapshots": [
+        {
+          "eventId": "UID-121204",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 8,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-03 11:44:35"
+        },
+        {
+          "eventId": "UID-121060",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 8,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-03 10:20:27"
+        }
+      ]
+    },
+    "IMEI:865478070216470": {
+      "score": 8,
+      "lastUpdated": "2026-09-03T06:51:11.000Z",
+      "contributors": [
+        {
+          "eventId": "UID-121112",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 10:51:11"
+        }
+      ],
+      "processedEventIds": [
+        "UID-121112"
+      ],
+      "snapshots": [
+        {
+          "eventId": "UID-121112",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 8,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-03 10:51:11"
+        }
+      ]
+    },
+    "IMEI:865478070321932": {
+      "score": 18.759999999999998,
+      "lastUpdated": "2026-09-03T06:54:18.000Z",
+      "contributors": [
+        {
+          "eventId": "UID-121119",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "timestamp": "2026-09-03 10:54:18"
+        },
+        {
+          "eventId": "UID-121115",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 10:51:54"
+        }
+      ],
+      "processedEventIds": [
+        "UID-121115",
+        "UID-121119"
+      ],
+      "snapshots": [
+        {
+          "eventId": "UID-121119",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 11,
+          "score": 19,
+          "previousScore": 8,
+          "level": "LOW",
+          "timestamp": "2026-09-03 10:54:18"
+        },
+        {
+          "eventId": "UID-121115",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 8,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-03 10:51:54"
+        }
+      ]
+    },
+    "IMEI:865478070267218": {
+      "score": 42.61666666666666,
+      "lastUpdated": "2026-09-03T08:52:48.000Z",
+      "contributors": [
+        {
+          "eventId": "UID-121283",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 12:52:48"
+        },
+        {
+          "eventId": "UID-121249",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "timestamp": "2026-09-03 12:25:56"
+        },
+        {
+          "eventId": "UID-121193",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "timestamp": "2026-09-03 11:39:58"
+        },
+        {
+          "eventId": "UID-121172",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 11:18:58"
+        }
+      ],
+      "processedEventIds": [
+        "UID-121172",
+        "UID-121193",
+        "UID-121249",
+        "UID-121283"
+      ],
+      "snapshots": [
+        {
+          "eventId": "UID-121283",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 43,
+          "previousScore": 35,
+          "level": "MEDIUM",
+          "timestamp": "2026-09-03 12:52:48"
+        },
+        {
+          "eventId": "UID-121249",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "score": 37,
+          "previousScore": 19,
+          "level": "MEDIUM",
+          "timestamp": "2026-09-03 12:25:56"
+        },
+        {
+          "eventId": "UID-121193",
+          "alertType": "distraction",
+          "alertLabel": "Distraction / Phone Use",
+          "netImpact": 18,
+          "score": 24,
+          "previousScore": 6,
+          "level": "MEDIUM",
+          "timestamp": "2026-09-03 11:39:58"
+        },
+        {
+          "eventId": "UID-121172",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 8,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-03 11:18:58"
+        }
+      ]
+    },
+    "IMEI:865478070265667": {
+      "score": 8,
+      "lastUpdated": "2026-09-03T08:27:23.000Z",
+      "contributors": [
+        {
+          "eventId": "UID-121251",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "timestamp": "2026-09-03 12:27:23"
+        }
+      ],
+      "processedEventIds": [
+        "UID-121251"
+      ],
+      "snapshots": [
+        {
+          "eventId": "UID-121251",
+          "alertType": "vibration",
+          "alertLabel": "Vibration Alert",
+          "netImpact": 8,
+          "score": 8,
+          "previousScore": 0,
+          "level": "LOW",
+          "timestamp": "2026-09-03 12:27:23"
         }
       ]
     }
