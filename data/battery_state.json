@@ -2,211 +2,175 @@
   "vehicles": {
     "D/31498": {
       "status": "INACTIVE_RISK",
-      "lastActivityAt": 1780918731000,
-      "thresholdCrossedAt": 1781005131000,
+      "lastActivityAt": 1788353100657,
+      "thresholdCrossedAt": 1788439500657,
       "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 2088,
-      "reportedAt": "2026-09-03T11:30:02.012Z"
+      "detectedAt": 1788495358552,
+      "inactiveHours": 40,
+      "reportedAt": "2026-09-04T04:30:02.999Z"
     },
     "S23401": {
-      "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783962332000,
-      "thresholdCrossedAt": 1784048732000,
-      "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1242,
-      "reportedAt": "2026-09-03T11:30:02.013Z"
+      "status": "ACTIVE",
+      "lastActivityAt": 1788492273000,
+      "reported": false,
+      "resolvedAt": "2026-09-04T04:15:58.588Z"
     },
     "BB18050": {
-      "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783940295000,
-      "thresholdCrossedAt": 1784026695000,
-      "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1248,
-      "reportedAt": "2026-09-03T11:30:02.014Z"
+      "status": "ACTIVE",
+      "lastActivityAt": 1788414199000,
+      "reported": false,
+      "resolvedAt": "2026-09-04T04:15:58.598Z"
     },
     "S23369": {
-      "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783948654000,
-      "thresholdCrossedAt": 1784035054000,
-      "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1246,
-      "reportedAt": "2026-09-03T11:30:02.014Z"
+      "status": "ACTIVE",
+      "lastActivityAt": 1788492814000,
+      "reported": false,
+      "resolvedAt": "2026-09-04T04:15:58.606Z"
     },
     "P17584": {
-      "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783960029000,
-      "thresholdCrossedAt": 1784046429000,
-      "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1243,
-      "reportedAt": "2026-09-03T11:30:02.015Z"
+      "status": "ACTIVE",
+      "lastActivityAt": 1788492111000,
+      "reported": false,
+      "resolvedAt": "2026-09-04T04:15:58.615Z"
     },
     "AA50982": {
-      "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783585516000,
-      "thresholdCrossedAt": 1783671916000,
-      "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1347,
-      "reportedAt": "2026-09-03T11:30:02.016Z"
+      "status": "ACTIVE",
+      "lastActivityAt": 1788483663000,
+      "reported": false,
+      "resolvedAt": "2026-09-04T04:15:58.623Z"
     },
     "CC38912": {
-      "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783940103000,
-      "thresholdCrossedAt": 1784026503000,
-      "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1248,
-      "reportedAt": "2026-09-03T11:30:02.017Z"
+      "status": "ACTIVE",
+      "lastActivityAt": 1788433522000,
+      "reported": false,
+      "resolvedAt": "2026-09-04T04:15:58.632Z"
     },
     "FF41836": {
-      "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783948434000,
-      "thresholdCrossedAt": 1784034834000,
-      "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1246,
-      "reportedAt": "2026-09-03T11:30:02.018Z"
+      "status": "ACTIVE",
+      "lastActivityAt": 1788446331000,
+      "reported": false,
+      "resolvedAt": "2026-09-04T04:15:58.639Z"
     },
     "FF41804": {
-      "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783852877000,
-      "thresholdCrossedAt": 1783939277000,
-      "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1273,
-      "reportedAt": "2026-09-03T11:30:02.018Z"
+      "status": "ACTIVE",
+      "lastActivityAt": 1788486768000,
+      "reported": false,
+      "resolvedAt": "2026-09-04T04:15:58.647Z"
     },
     "S24169": {
-      "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783987407000,
-      "thresholdCrossedAt": 1784073807000,
-      "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1235,
-      "reportedAt": "2026-09-03T11:30:02.019Z"
+      "status": "ACTIVE",
+      "lastActivityAt": 1788493148000,
+      "reported": false,
+      "resolvedAt": "2026-09-04T04:15:58.655Z"
     },
     "Q/21735": {
-      "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783948632000,
-      "thresholdCrossedAt": 1784035032000,
-      "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1246,
-      "reportedAt": "2026-09-03T11:30:02.020Z"
+      "status": "ACTIVE",
+      "lastActivityAt": 1788493308000,
+      "reported": false,
+      "resolvedAt": "2026-09-04T04:15:58.664Z"
     },
     "Y75118": {
-      "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783951805000,
-      "thresholdCrossedAt": 1784038205000,
-      "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1245,
-      "reportedAt": "2026-09-03T11:30:02.022Z"
+      "status": "ACTIVE",
+      "lastActivityAt": 1788494910000,
+      "reported": false,
+      "resolvedAt": "2026-09-04T04:15:58.672Z"
     },
     "Q21683": {
-      "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783947304000,
-      "thresholdCrossedAt": 1784033704000,
-      "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1246,
-      "reportedAt": "2026-09-03T11:30:02.023Z"
+      "status": "ACTIVE",
+      "lastActivityAt": 1788490248000,
+      "reported": false,
+      "resolvedAt": "2026-09-04T04:15:58.681Z"
     },
     "Y40629": {
-      "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783990754000,
-      "thresholdCrossedAt": 1784077154000,
-      "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1234,
-      "reportedAt": "2026-09-03T11:30:02.024Z"
+      "status": "ACTIVE",
+      "lastActivityAt": 1788495224000,
+      "reported": false,
+      "resolvedAt": "2026-09-04T04:15:58.691Z"
     },
     "Q/96581": {
-      "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783945389000,
-      "thresholdCrossedAt": 1784031789000,
-      "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1247,
-      "reportedAt": "2026-09-03T11:30:02.025Z"
+      "status": "ACTIVE",
+      "lastActivityAt": 1788492227000,
+      "reported": false,
+      "resolvedAt": "2026-09-04T04:15:58.699Z"
     },
     "V83060": {
-      "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783951852000,
-      "thresholdCrossedAt": 1784038252000,
-      "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1245,
-      "reportedAt": "2026-09-03T11:30:02.026Z"
+      "status": "ACTIVE",
+      "lastActivityAt": 1788481686000,
+      "reported": false,
+      "resolvedAt": "2026-09-04T04:15:58.709Z"
     },
     "Z21833": {
-      "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783861701000,
-      "thresholdCrossedAt": 1783948101000,
-      "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1270,
-      "reportedAt": "2026-09-03T11:30:02.027Z"
+      "status": "ACTIVE",
+      "lastActivityAt": 1788489057000,
+      "reported": false,
+      "resolvedAt": "2026-09-04T04:15:58.716Z"
     },
     "P17607": {
-      "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783990907000,
-      "thresholdCrossedAt": 1784077307000,
-      "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1234,
-      "reportedAt": "2026-09-03T11:30:02.029Z"
+      "status": "ACTIVE",
+      "lastActivityAt": 1788495308000,
+      "reported": false,
+      "resolvedAt": "2026-09-04T04:15:58.733Z"
     },
     "T59963": {
       "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783755499000,
-      "thresholdCrossedAt": 1783841899000,
+      "lastActivityAt": 1788153340000,
+      "thresholdCrossedAt": 1788239740000,
       "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1300,
-      "reportedAt": "2026-09-03T11:30:02.031Z"
+      "detectedAt": 1788495358552,
+      "inactiveHours": 95,
+      "reportedAt": "2026-09-04T04:30:03.001Z"
     },
     "G80422": {
-      "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783945509000,
-      "thresholdCrossedAt": 1784031909000,
-      "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1247,
-      "reportedAt": "2026-09-03T11:30:02.032Z"
+      "status": "ACTIVE",
+      "lastActivityAt": 1788436766000,
+      "reported": false,
+      "resolvedAt": "2026-09-04T04:15:58.750Z"
     },
     "E/28256": {
-      "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783967833000,
-      "thresholdCrossedAt": 1784054233000,
-      "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1241,
-      "reportedAt": "2026-09-03T11:30:02.033Z"
+      "status": "ACTIVE",
+      "lastActivityAt": 1788495269000,
+      "reported": false,
+      "resolvedAt": "2026-09-04T04:15:58.759Z"
     },
     "E30849": {
-      "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783945489000,
-      "thresholdCrossedAt": 1784031889000,
-      "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1247,
-      "reportedAt": "2026-09-03T11:30:02.033Z"
+      "status": "ACTIVE",
+      "lastActivityAt": 1788494987000,
+      "reported": false,
+      "resolvedAt": "2026-09-04T04:15:58.767Z"
     },
     "Z/33416": {
+      "status": "ACTIVE",
+      "lastActivityAt": 1788490845000,
+      "reported": false,
+      "resolvedAt": "2026-09-04T04:15:58.776Z"
+    },
+    "Q": {
       "status": "INACTIVE_RISK",
-      "lastActivityAt": 1783945099000,
-      "thresholdCrossedAt": 1784031499000,
+      "lastActivityAt": 1775040838000,
+      "thresholdCrossedAt": 1775127238000,
       "reported": true,
-      "detectedAt": 1788434663914,
-      "inactiveHours": 1247,
-      "reportedAt": "2026-09-03T11:30:02.034Z"
+      "detectedAt": 1788495358552,
+      "inactiveHours": 3737,
+      "reportedAt": "2026-09-04T04:30:03.000Z"
+    },
+    "JC371-58100": {
+      "status": "INACTIVE_RISK",
+      "lastActivityAt": 1775716317000,
+      "thresholdCrossedAt": 1775802717000,
+      "reported": true,
+      "detectedAt": 1788495358552,
+      "inactiveHours": 3550,
+      "reportedAt": "2026-09-04T04:30:03.002Z"
+    },
+    "JC371-67218": {
+      "status": "INACTIVE_RISK",
+      "lastActivityAt": 1775889703000,
+      "thresholdCrossedAt": 1775976103000,
+      "reported": true,
+      "detectedAt": 1788495358552,
+      "inactiveHours": 3502,
+      "reportedAt": "2026-09-04T04:30:03.003Z"
     }
   },
-  "updatedAt": "2026-09-03T11:30:02.035Z"
+  "updatedAt": "2026-09-04T04:30:03.003Z"
 }
